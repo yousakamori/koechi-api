@@ -1,0 +1,84 @@
+version: "3"
+
+services:
+  db:
+    container_name: db
+    image: postgres:13.6-alpine
+    environment:
+      TZ: Asia/Tokyo
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgresql-store:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+      app_net:
+        ipv4_address: '172.20.0.2'
+  mailhog:
+    container_name: mailhog
+    image: mailhog/mailhog
+    restart: always
+    environment:
+      MH_STORAGE: maildir
+      MH_MAILDIR_PATH: /tmp
+    ports:
+      - 1025:1025
+      - 8025:8025
+    volumes:
+      - maildir:/tmp
+    networks:
+      app_net:
+        ipv4_address: '172.20.0.4'
+  redis:
+    container_name: redis
+    image: redis:6.2.5-alpine
+    command: redis-server --appendonly yes
+    ports:
+      - 6379:6379
+    volumes:
+      - redis-store:/app/redis/data"
+    networks:
+      app_net:
+        ipv4_address: '172.20.0.5'
+  app:
+    container_name: app
+    image: app
+    build:
+      context: .
+      dockerfile: ./docker/ruby/Dockerfile
+    command: /bin/sh -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    tty: true
+    stdin_open: true
+    # environment:
+    #   ALLOW_ORIGIN: http://localhost:3000
+    volumes:
+      - .:/app:cached
+      - bundle:/usr/local/bundle:cached
+      - ./docker/ash:/etc/profile.d
+      - /app/vendor
+      - /app/tmp
+      - /app/log
+      - /app/.git
+      - ~/.ssh/aws_koechi:/root/.ssh
+    depends_on:
+      - db
+      - redis
+      - mailhog
+    ports:
+      - 5000:3000
+    networks:
+      app_net:
+        ipv4_address: '172.20.0.3'
+networks:
+  app_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.0.0/24
+volumes:
+  postgresql-store:
+  redis-store:
+  bundle:
+  maildir:
+

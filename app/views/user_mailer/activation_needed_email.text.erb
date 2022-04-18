@@ -1,0 +1,5 @@
+<%= Rails.configuration.x.app.name %>へようこそ！
+
+<%= @user.token_expiration_time %>以内に下記へアクセスし、登録を完了してください。
+
+<%= "#{@user.magic_link}" %>

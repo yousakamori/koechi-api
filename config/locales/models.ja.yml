@@ -1,0 +1,6 @@
+ja:
+  errors:
+    messages:
+      taken_email: はすでに登録済です
+      taken_username: はすでに登録済です
+      invalid_password: は8〜32文字の半角英数で入力してください

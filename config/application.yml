@@ -1,0 +1,13 @@
+default: &default
+  name: koechi
+  client_url: http://localhost:3000
+    
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  <<: *default
+  client_url: https://koechi.com

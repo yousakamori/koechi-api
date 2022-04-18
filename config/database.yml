@@ -1,0 +1,24 @@
+default: &default
+  adapter: postgresql
+  username: postgres
+  password: password
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  host: db
+  database: koechi_development
+
+test:
+  <<: *default
+  host: <%= ENV['DATABASE_HOST'] || 'db' %>
+  database: koechi_test
+
+production:
+  <<: *default
+  database: <%= Rails.application.credentials.dig(:db, :name) %>
+  username: <%= Rails.application.credentials.dig(:db, :user) %>
+  password: <%= Rails.application.credentials.dig(:db, :password) %>
+  host: <%= Rails.application.credentials.dig(:db, :host) %>
+  

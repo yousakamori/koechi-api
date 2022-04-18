@@ -1,0 +1,6 @@
+<h1>招待メール</h1>
+
+<p><%= @space.name %>に招待されました。</p>
+<%= link_to "#{@space.name}", "#{Rails.configuration.x.app.client_url}/spaces/#{@space.slug}" %>
+
+<p><%= "#{Rails.configuration.x.app.client_url}/spaces/#{@space.slug}" %></p>
