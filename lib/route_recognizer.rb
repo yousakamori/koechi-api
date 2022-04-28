@@ -1,5 +1,5 @@
 module RouteRecognizer
-  extend self
+  module_function
 
   INITIAL_SEGMENT_REGEX = %r{^/([^/(:]+)}
 

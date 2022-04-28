@@ -86,11 +86,10 @@ Rails.application.configure do
 
   # S3
   config.active_storage.service = :amazon
+
+  # host name
   Rails.application.routes.default_url_options[:host] = 'api.koechi.com'
 
   # Sendgrid
   config.action_mailer.delivery_method = :sendgrid
-
-  # CloudFront
-  config.active_storage.resolve_model_to_route = :cdn_image
 end

@@ -6,22 +6,20 @@ class SearchesController < ApplicationController
 
   PER_PAGE_SEARCHES = 48
   def show
-    if params[:source] == 'users'
+    case params[:source]
+    when 'users'
       q = User.ransack({ m: 'and', g: gouping_hash(@keywords, %w[name username]), s: 'follower_count desc' })
       @users = q.result.includes(avatar_attachment: :blob).page(params[:page]).per(params[:count] || PER_PAGE_SEARCHES)
 
       render 'users', formats: :json
-    end
-
-    if params[:source] == 'talks'
+    when  'talks'
       # TODO: sort順を考える
       q = Talk.ransack({ m: 'and', g: gouping_hash(@keywords, %w[title]), s: 'created_at desc' })
       @talks = q.result.includes([user: { avatar_attachment: :blob }]).active.page(params[:page]).per(params[:count] || PER_PAGE_SEARCHES)
 
       render 'talks', formats: :json
-    end
-
-    if params[:source] == 'notes'
+    else
+      # notes
       raise(ExceptionHandler::AuthenticationError) unless @current_user
 
       # TODO: sort順を考える
@@ -56,9 +54,9 @@ class SearchesController < ApplicationController
   end
 
   def check_source
-    unless %w[users notes talks].include?(params[:source])
-      json_response({ message: '適切なsourceパラメーターを指定してください。' }, :bad_request)
-    end
+    return if %w[users notes talks].include?(params[:source])
+
+    json_response({ message: '適切なsourceパラメーターを指定してください。' }, :bad_request)
   end
 
   def split_keywords
@@ -73,12 +71,12 @@ class SearchesController < ApplicationController
   end
 
   def gouping_hash(keywords, cols)
-    keywords.reduce({}) do |h, k|
-      h.merge(k => {
-                g: cols.reduce({}) do |h, c|
-                  h.merge({ c => { "#{c}_cont" => k } })
-                end, m: 'or'
-              })
+    keywords.reduce({}) do |hk, k|
+      hk.merge(k => {
+                 g: cols.reduce({}) do |hc, c|
+                   hc.merge({ c => { "#{c}_cont" => k } })
+                 end, m: 'or'
+               })
     end
   end
 end

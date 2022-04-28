@@ -14,20 +14,14 @@ class Notification < ApplicationRecord
   # ___________________________________________________________________________
   #
   def action_text
-    case action
-    when 'note'
-      'を投稿しました'
-    when 'comment'
-      'にコメントしました'
-    when 'comment_reply'
-      'に返信しました'
-    when 'like'
-      'にいいねをつけました'
-    when 'follow'
-      'をフォローしました'
-    when 'invite'
-      'に招待しました'
-    end
+    {
+      'follow' => 'をフォローしました',
+      'comment' => 'にコメントしました',
+      'comment_reply' => 'に返信しました',
+      'like' => 'にいいねをつけました',
+      'note' => 'を投稿しました',
+      'invite' => 'に招待しました'
+    }[action]
   end
 
   def notifiable_slug

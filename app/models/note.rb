@@ -27,4 +27,10 @@ class Note < ApplicationRecord
   def body_length
     body_text&.length || 0
   end
+
+  def mine?(current_user)
+    return false unless current_user
+
+    user_id == current_user.id
+  end
 end

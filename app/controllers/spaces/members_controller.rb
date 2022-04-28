@@ -18,7 +18,7 @@ class Spaces::MembersController < ApplicationController
       Notification.send_recipient!(action: 'invite', recipient: @user, sender: @current_user, notifiable: @member)
     end
 
-    @member.send_member_email(@user, @space) if @member
+    @member&.send_member_email(@user, @space)
 
     render 'create', formats: :json
   end
@@ -26,6 +26,7 @@ class Spaces::MembersController < ApplicationController
   def update
     member = Membership.find_by(space_id: @space.id, user_id: @user.id)
 
+    # TODO
     if params[:role] == 'admin'
       member.admin! unless member.admin?
     elsif params[:role] == 'member'

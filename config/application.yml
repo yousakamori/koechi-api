@@ -1,5 +1,6 @@
 default: &default
   name: koechi
+  cdn_url: https://cdn.koechi.com
   client_url: http://localhost:3000
     
 development:

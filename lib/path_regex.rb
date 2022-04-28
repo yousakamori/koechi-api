@@ -1,5 +1,5 @@
 module PathRegex
-  extend self
+  module_function
 
   TOP_LEVEL_ROUTES = %w[
     0

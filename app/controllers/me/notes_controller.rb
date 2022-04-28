@@ -6,14 +6,14 @@ class Me::NotesController < ApplicationController
   def show
     @notes = @notes.order(posted_at: :desc).page(params[:page]).per(params[:count] || PER_PAGE_NOTES)
     # posted_at
-    @notes = @notes.where(posted_at: Time.at(params[:posted_at].to_i).all_day) if params[:posted_at]
+    @notes = @notes.where(posted_at: Time.zone.at(params[:posted_at].to_i).all_day) if params[:posted_at]
 
     render 'show', formats: :json
   end
 
   def term
-    start_date = Time.at(params[:start].to_i)
-    end_date = Time.at(params[:end].to_i).end_of_day
+    start_date = Time.zone.at(params[:start].to_i)
+    end_date = Time.zone.at(params[:end].to_i).end_of_day
     @notes = @notes.where(posted_at: (start_date..end_date)).order(:posted_at)
 
     render 'term', formats: :json

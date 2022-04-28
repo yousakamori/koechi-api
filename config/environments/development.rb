@@ -64,6 +64,7 @@ Rails.application.configure do
 
   # config.active_storage.service = :amazon
   config.active_storage.service = :local
+
   Rails.application.routes.default_url_options[:host] = 'localhost'
   Rails.application.routes.default_url_options[:port] = 5000
 
