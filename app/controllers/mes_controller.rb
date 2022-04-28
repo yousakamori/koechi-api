@@ -1,6 +1,6 @@
 class MesController < ApplicationController
   def show
-    render 'show', formats: :json, handlers: 'jbuilder'
+    render 'show', formats: :json
   end
 
   def update
@@ -15,7 +15,7 @@ class MesController < ApplicationController
 
     @current_user.update!(me_params)
 
-    render 'show', formats: :json, handlers: 'jbuilder'
+    render 'show', formats: :json
   end
 
   def destroy

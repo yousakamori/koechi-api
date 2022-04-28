@@ -3,7 +3,11 @@ class User < ApplicationRecord
   extend OrderAsSpecified
 
   has_secure_password
-  has_one_attached :avatar
+  # has_one_attached :avatar
+  has_one_attached :avatar do |attachable|
+    attachable.variant :small, resize_to_limit: [80, 80]
+  end
+
   # ___________________________________________________________________________
   #
   has_many :notes, dependent: :delete_all
@@ -95,7 +99,7 @@ class User < ApplicationRecord
   end
 
   def avatar_small_url
-    rails_storage_proxy_url(avatar.variant(resize: '80x80').processed) if avatar.attached?
+    rails_storage_proxy_url(avatar.variant(:small)) if avatar.attached?
   end
 
   def self.generate_signup_code(length = 20)

@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
     # TODO:  user.activated?処理追加する？
     if user&.authenticate(params[:password])
       login(user)
-      render 'mes/show', formats: :json, handlers: 'jbuilder'
+      render 'mes/show', formats: :json
     else
       json_response({ message: params[:token] ? '認証に失敗しました' : 'ログイン情報をお確かめ下さい' }, :bad_request)
     end

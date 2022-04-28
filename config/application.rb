@@ -11,14 +11,13 @@ require 'action_mailbox/engine'
 require 'action_text/engine'
 require 'action_view/railtie'
 require 'action_cable/engine'
-# require "sprockets/railtie"
 require 'rails/test_unit/railtie'
 
 Bundler.require(*Rails.groups)
 
 module App
   class Application < Rails::Application
-    config.load_defaults 6.0
+    config.load_defaults 7.0
     config.api_only = true
 
     # cookie
@@ -51,10 +50,10 @@ module App
                        routing_specs: false
     end
 
+    # yaml config
     config.x.app = config_for(:application)
 
-
-    # CloudFront
-    config.active_storage.resolve_model_to_route = :cdn_image
+    # image processor
+    config.active_storage.variant_processor = :mini_magick
   end
 end

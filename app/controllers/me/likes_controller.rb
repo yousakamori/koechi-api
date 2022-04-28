@@ -5,6 +5,6 @@ class Me::LikesController < ApplicationController
                           .includes([:note, { note: :space, likable: [user: { avatar_attachment: :blob }] }])
                           .liked.order(created_at: :desc).page(params[:page]).per(10)
 
-    render 'show', formats: :json, handlers: 'jbuilder'
+    render 'show', formats: :json
   end
 end

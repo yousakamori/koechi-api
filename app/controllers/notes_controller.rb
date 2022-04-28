@@ -10,7 +10,7 @@ class NotesController < ApplicationController
     @participants = User.group(:id).includes({ avatar_attachment: :blob }).joins(:comments)
                         .where("comments.commentable_id": @note.id).order_as_specified(id: [@note.user.id, @current_user.id])
 
-    render 'show', formats: :json, handlers: 'jbuilder'
+    render 'show', formats: :json
   end
 
   def update
@@ -27,7 +27,7 @@ class NotesController < ApplicationController
   end
 
   def edit
-    render 'edit', formats: :json, handlers: 'jbuilder'
+    render 'edit', formats: :json
   end
 
   private

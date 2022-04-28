@@ -10,6 +10,6 @@ class Me::NotificationsController < ApplicationController
       @current_user.update(notifications_count: 0)
     end
 
-    render 'index', formats: :json, handlers: 'jbuilder'
+    render 'index', formats: :json
   end
 end

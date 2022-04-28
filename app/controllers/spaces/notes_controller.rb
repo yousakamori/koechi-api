@@ -7,7 +7,7 @@ class Spaces::NotesController < ApplicationController
     @notes = @space.notes.includes([user: { avatar_attachment: :blob }])
                    .active.order(posted_at: :desc).page(params[:page]).per(10)
 
-    render 'index', formats: :json, handlers: 'jbuilder'
+    render 'index', formats: :json
   end
 
   def create

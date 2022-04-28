@@ -8,7 +8,7 @@ class Me::NotesController < ApplicationController
     # posted_at
     @notes = @notes.where(posted_at: Time.at(params[:posted_at].to_i).all_day) if params[:posted_at]
 
-    render 'show', formats: :json, handlers: 'jbuilder'
+    render 'show', formats: :json
   end
 
   def term
@@ -16,7 +16,7 @@ class Me::NotesController < ApplicationController
     end_date = Time.at(params[:end].to_i).end_of_day
     @notes = @notes.where(posted_at: (start_date..end_date)).order(:posted_at)
 
-    render 'term', formats: :json, handlers: 'jbuilder'
+    render 'term', formats: :json
   end
 
   private

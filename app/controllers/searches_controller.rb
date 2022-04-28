@@ -10,7 +10,7 @@ class SearchesController < ApplicationController
       q = User.ransack({ m: 'and', g: gouping_hash(@keywords, %w[name username]), s: 'follower_count desc' })
       @users = q.result.includes(avatar_attachment: :blob).page(params[:page]).per(params[:count] || PER_PAGE_SEARCHES)
 
-      render 'users', formats: :json, handlers: 'jbuilder'
+      render 'users', formats: :json
     end
 
     if params[:source] == 'talks'
@@ -18,7 +18,7 @@ class SearchesController < ApplicationController
       q = Talk.ransack({ m: 'and', g: gouping_hash(@keywords, %w[title]), s: 'created_at desc' })
       @talks = q.result.includes([user: { avatar_attachment: :blob }]).active.page(params[:page]).per(params[:count] || PER_PAGE_SEARCHES)
 
-      render 'talks', formats: :json, handlers: 'jbuilder'
+      render 'talks', formats: :json
     end
 
     if params[:source] == 'notes'
@@ -29,7 +29,7 @@ class SearchesController < ApplicationController
       @notes = q.result.includes(:space, user: { avatar_attachment: :blob })
                 .page(params[:page]).per(params[:count] || PER_PAGE_SEARCHES)
 
-      render 'notes', formats: :json, handlers: 'jbuilder'
+      render 'notes', formats: :json
     end
   end
 

@@ -8,7 +8,7 @@ class Spaces::MembersController < ApplicationController
     @members = Membership.includes([user: { avatar_attachment: :blob }]).where(space_id: @space.id)
                          .order_as_specified(user_id: [@space.owner.id, @current_user.id]).order(role: :desc)
 
-    render 'show', formats: :json, handlers: 'jbuilder'
+    render 'show', formats: :json
   end
 
   def create
@@ -20,7 +20,7 @@ class Spaces::MembersController < ApplicationController
 
     @member.send_member_email(@user, @space) if @member
 
-    render 'create', formats: :json, handlers: 'jbuilder'
+    render 'create', formats: :json
   end
 
   def update

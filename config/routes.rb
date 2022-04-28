@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  # TODO: 使ってない
   get '/blobs/redirect/:signed_id/*filename' => 'active_storage/blobs#show'
 
   post '/login', to: 'sessions#create'
@@ -7,13 +8,11 @@ Rails.application.routes.draw do
   post '/follow', to: 'follow_relationships#create'
   delete '/unfollow', to: 'follow_relationships#destroy'
 
-   # for delivering uploaded files from CDN
+  resources :direct_uploads, only: [:create]
+
+  # for delivering uploaded files from CDN
   # See: https://guides.rubyonrails.org/v7.0/active_storage_overview.html#putting-a-cdn-in-front-of-active-storage
   # direct :cdn do |model, options|
-
-    
-    
-    
 
   #   obj = model.respond_to?(:blob) ? model.blob : model # Variantファイルよりもオリジナルファイルを優先
   #   uri = URI.parse(root_url)
@@ -24,32 +23,28 @@ Rails.application.routes.draw do
   #   uri.to_s # e.g. "https://#{CDN_HOST}/#{obj.key}"
   # end
 
+  # direct :cdn_image do |model, options|
+  #   if model.respond_to?(:signed_id)
+  #     route_for(
+  #       :rails_service_blob_proxy,
+  #       model.signed_id,
+  #       model.filename,
+  #       options.merge(host: 'https://cdn.koechi.com')
+  #     )
+  #   else
+  #     signed_blob_id = model.blob.signed_id
+  #     variation_key  = model.variation.key
+  #     filename       = model.blob.filename
 
-  direct :cdn_image do |model, options|
-
-    if model.respond_to?(:signed_id)
-      route_for(
-        :rails_service_blob_proxy,
-        model.signed_id,
-        model.filename,
-        options.merge(host: "https://cdn.koechi.com")
-      )
-    else
-      signed_blob_id = model.blob.signed_id
-      variation_key  = model.variation.key
-      filename       = model.blob.filename
-  
-      route_for(
-        :rails_blob_representation_proxy,
-        signed_blob_id,
-        variation_key,
-        filename,
-        options.merge(host: "https://cdn.koechi.com")
-      )
-    end
-  end
-
-
+  #     route_for(
+  #       :rails_blob_representation_proxy,
+  #       signed_blob_id,
+  #       variation_key,
+  #       filename,
+  #       options.merge(host: 'https://cdn.koechi.com')
+  #     )
+  #   end
+  # end
 
   namespace :validators do
     namespace :users do

@@ -4,7 +4,7 @@ class SpacesController < ApplicationController
   before_action :authorize_user, only: [:show, :update, :destroy]
 
   def show
-    render 'show', formats: :json, handlers: 'jbuilder'
+    render 'show', formats: :json
   end
 
   def create
@@ -13,7 +13,7 @@ class SpacesController < ApplicationController
       @space.memberships.find_by(user_id: @current_user).admin!
     end
 
-    render 'create', formats: :json, handlers: 'jbuilder'
+    render 'create', formats: :json
   end
 
   def update

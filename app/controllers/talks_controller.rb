@@ -20,7 +20,7 @@ class TalksController < ApplicationController
     # username
     @talks = @talks.username(params[:username]) if params[:username] && User.exists?(username: params[:username])
 
-    render 'index', formats: :json, handlers: 'jbuilder'
+    render 'index', formats: :json
   end
 
   def show
@@ -36,12 +36,12 @@ class TalksController < ApplicationController
     @participants = User.group(:id).includes({ avatar_attachment: :blob })
                         .joins(:comments).where("comments.commentable_id": @talk.id).order_as_specified(id: order_fields)
 
-    render 'show', formats: :json, handlers: 'jbuilder'
+    render 'show', formats: :json
   end
 
   def create
     @talk = @current_user.talks.create!(talk_params)
-    render 'create', formats: :json, handlers: 'jbuilder'
+    render 'create', formats: :json
   end
 
   def update
@@ -58,7 +58,7 @@ class TalksController < ApplicationController
   def archived
     @talks = @current_user.talks.where(archived: true).page(params[:page] || 1).per(params[:count] || PER_PAGE_TALKS_ARCHIVED)
 
-    render 'index', formats: :json, handlers: 'jbuilder'
+    render 'index', formats: :json
   end
 
   private

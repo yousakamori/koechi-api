@@ -26,7 +26,7 @@ class CommentsController < ApplicationController
       end
     end
 
-    render 'create', formats: :json, handlers: 'jbuilder'
+    render 'create', formats: :json
   end
 
   def update

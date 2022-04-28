@@ -8,7 +8,7 @@ gem 'bootsnap', require: false
 gem 'pg'
 gem 'puma'
 gem 'rack-cors'
-gem 'rails', '6.1.0'
+gem 'rails', '7.0.2.4'
 gem 'rails-i18n'
 gem 'redis-rails'
 
@@ -27,7 +27,7 @@ gem 'image_processing'
 gem 'mini_magick'
 
 # いい感じのcounter_cache
-gem 'counter_culture', '~> 2.0'
+gem 'counter_culture'
 
 # input urlをlinkへ変換
 gem 'rinku'
@@ -47,9 +47,6 @@ gem 'ransack'
 gem 'jbuilder'
 
 group :development, :test do
-  # environment
-  # gem 'dotenv-rails'
-
   # repl
   gem 'better_errors'
   gem 'binding_of_caller'
@@ -66,9 +63,8 @@ group :development, :test do
 end
 
 group :development do
-  gem 'listen', '~> 3.2'
+  gem 'listen'
   gem 'spring'
-  gem 'spring-watcher-listen', '~> 2.0.0'
 
   # deploy
   gem 'capistrano', require: false
