@@ -4,7 +4,7 @@ executors:
   deploy_executor:
     working_directory: ~/repo
     docker:
-      - image: circleci/ruby:3.0.4
+      - image: cimg/ruby:3.0.4
         environment:
           BUNDLE_PATH: vendor/bundle
           RAILS_ENV: test
@@ -12,12 +12,12 @@ executors:
   test_executor:
     working_directory: ~/repo
     docker:
-      - image: circleci/ruby:3.0.4
+      - image: cimg/ruby:3.0.4
         environment:
           BUNDLE_PATH: vendor/bundle
           RAILS_ENV: test
           DATABASE_HOST: 127.0.0.1
-      - image: circleci/postgres:13.6
+      - image: cimg/postgres:13.6
         environment:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: password
@@ -98,7 +98,7 @@ jobs:
       # ec2 ssh key
       - add_ssh_keys:
           fingerprints:
-            - 03:64:ea:5b:38:82:5d:4b:61:f8:64:15:5e:77:4d:ba
+            - 13:c8:b6:90:8e:b8:9c:a7:5c:1d:9f:e2:b3:ea:b5:ff
 
       # deploy to ec2
       - deploy:

@@ -39,6 +39,7 @@ class MesController < ApplicationController
 
   def liked
     liked = @current_user.likes.exists?(liked: true, likable_id: params[:likable_id], likable_type: params[:likable_type])
+
     render json: { liked: liked }
   end
 

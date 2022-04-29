@@ -68,7 +68,7 @@ class User < ApplicationRecord
 
   validates :role, presence: true
 
-  validates :avatar, attached: true, allow_blank: true, content_type: ['image/png', 'image/jpg', 'image/jpeg', 'image/gif'],
+  validates :avatar, attached: true, allow_blank: true, content_type: ['image/png', 'image/jpeg', 'image/gif'],
                      size: { less_than: 5.megabytes }
   # ___________________________________________________________________________
   #
@@ -155,6 +155,7 @@ class User < ApplicationRecord
   PASSWORD_TOKEN_EXPIRATION_PERIOD = 60.minutes
   def setup_reset_password_magic_link
     signed_id = signed_id(expires_in: PASSWORD_TOKEN_EXPIRATION_PERIOD, purpose: :reset_password)
+    self.token_expiration_time = "#{PASSWORD_TOKEN_EXPIRATION_PERIOD.in_minutes.to_i}分"
     self.magic_link = "#{Rails.configuration.x.app.client_url}/update_password?token=#{signed_id}"
   end
 
@@ -166,6 +167,7 @@ class User < ApplicationRecord
   EMAIL_TOKEN_EXPIRATION_PERIOD = 60.minutes
   def setup_reset_email_magic_link
     signed_id = signed_id(expires_in: EMAIL_TOKEN_EXPIRATION_PERIOD, purpose: :reset_email)
+    self.token_expiration_time = "#{EMAIL_TOKEN_EXPIRATION_PERIOD.in_minutes.to_i}分"
     self.magic_link = "#{Rails.configuration.x.app.client_url}/update_email?token=#{signed_id}"
   end
 

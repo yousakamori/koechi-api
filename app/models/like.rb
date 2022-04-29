@@ -1,9 +1,13 @@
 class Like < ApplicationRecord
   has_many :notifications, as: :notifiable, dependent: :destroy
+  belongs_to :user
   belongs_to :likable, polymorphic: true
   belongs_to :note, -> {
                       joins(:likes).where(likes: { id: Like.where(likable_type: 'Note') })
                     }, foreign_key: :likable_id, optional: true
+  # ___________________________________________________________________________
+  #
+  validates :likable_type, presence: true, inclusion: { in: %w[Comment Talk Note] }
   # ___________________________________________________________________________
   #
   scope :liked, -> { where(liked: true) }

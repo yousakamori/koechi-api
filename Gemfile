@@ -78,6 +78,10 @@ group :development do
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec'
+
+  # ssh deploy
+  gem 'bcrypt_pbkdf'
+  gem 'ed25519'
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

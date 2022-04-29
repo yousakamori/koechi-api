@@ -31,7 +31,7 @@ class CommentsController < ApplicationController
 
   def update
     @comment.update!(update_comment_params)
-    render json: @comment.as_json({ only: [:body_text, :body_json] })
+    head :no_content
   end
 
   def destroy

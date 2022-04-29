@@ -14,6 +14,7 @@ class Comment < ApplicationRecord
   # ___________________________________________________________________________
   #
   validates :body_json, presence: true
+  validates :commentable_type, presence: true, inclusion: { in: %w[Talk Note] }
   # ___________________________________________________________________________
   #
   after_save :update_last_comment_created_at!
@@ -27,10 +28,6 @@ class Comment < ApplicationRecord
   end
 
   def update_last_comment_created_at!
-    # talkの最終更新時間を更新
-
-    return unless commentable_type == 'Talk' || commentable_type == 'Note'
-
     commentable.update!(last_comment_created_at: commentable.comments_count.positive? ? updated_at : nil)
   end
 end

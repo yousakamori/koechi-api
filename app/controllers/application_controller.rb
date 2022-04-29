@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::API
-  include Pundit
+  include Pundit::Authorization
   include ActionController::Cookies
   include Response
   include ExceptionHandler

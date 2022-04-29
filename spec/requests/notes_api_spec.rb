@@ -18,9 +18,7 @@ RSpec.describe 'Notes API', type: :request do
   describe 'PUT /notes/' do
     it 'noteの編集' do
       log_in_as(user.email, 'passw0rd')
-
       new_posted_at = Time.current.next_day.beginning_of_day
-
       note = create(:note, title: 'title', body_text: 'body text',
                            body_json: 'body json', posted_at: Time.current, user: user)
       put "/notes/#{note.slug}",

@@ -74,7 +74,7 @@ RSpec.describe User, type: :model do
   end
 
   describe 'アバター' do
-    it { is_expected.to validate_content_type_of(:avatar).allowing('image/png', 'image/jpg', 'image/jpeg', 'image/gif') }
+    it { is_expected.to validate_content_type_of(:avatar).allowing('image/png', 'image/jpeg', 'image/gif') }
     it { is_expected.to validate_content_type_of(:avatar).rejecting('text/plain', 'text/xml') }
     it { is_expected.to validate_size_of(:avatar).less_than(5.megabytes) }
   end
