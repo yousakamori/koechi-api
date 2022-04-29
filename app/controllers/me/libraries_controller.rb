@@ -1,10 +1,11 @@
-class Me::LikesController < ApplicationController
-  def show
+class Me::LibrariesController < ApplicationController
+  PER_PAGE_LIKES = 10
+  def likes
     # TODO: archiveは表示したくない => めんどくさそう
     @likes = @current_user.likes
                           .includes([:note, { note: :space, likable: [user: { avatar_attachment: :blob }] }])
-                          .liked.order(created_at: :desc).page(params[:page]).per(10)
+                          .liked.order(created_at: :desc).page(params[:page]).per(PER_PAGE_LIKES)
 
-    render 'show', formats: :json
+    render 'likes', formats: :json
   end
 end

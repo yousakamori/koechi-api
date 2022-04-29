@@ -1,6 +1,5 @@
 class Note < ApplicationRecord
-  include CurrentUserConditions
-  paginates_per 50
+  paginates_per 50 # TODO: default:25を変更 => ここで定義どうしよ?
 
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :likes, -> { where liked: true }, as: :likable, dependent: :destroy

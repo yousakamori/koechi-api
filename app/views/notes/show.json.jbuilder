@@ -4,7 +4,7 @@ json.note do
 
   json.is_mine @note.mine?(@current_user)
   json.body_letters_count @note.body_length
-  json.current_user_liked @note.current_user_liked?(@current_user)
+
   json.user do
     json.extract! @note.user, :id, :name, :username, :avatar_small_url
   end
@@ -20,8 +20,6 @@ json.comments do
     json.extract! comment, :id, :body_text, :body_json, :updated_at, :created_at, :user_id, :parent_id, :body_updated_at, :slug,
                   :liked_count
 
-    json.current_user_liked comment.current_user_liked?(@current_user)
-
     json.user do
       json.extract! comment.user, :id, :name, :username, :avatar_small_url
     end
@@ -30,8 +28,6 @@ json.comments do
       json.array! comment.children do |child|
         json.extract! child, :id, :body_text, :body_json, :updated_at, :created_at, :user_id, :parent_id, :body_updated_at, :slug,
                       :liked_count
-
-        json.current_user_liked child.current_user_liked?(@current_user)
 
         json.user do
           json.extract! child.user, :id, :name, :username, :avatar_small_url

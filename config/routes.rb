@@ -71,9 +71,13 @@ Rails.application.routes.draw do
     end
   end
 
-  resource :me, only: [:show, :update, :destroy]
+  resource :me, only: [:show, :update, :destroy] do
+    collection { get :liked }
+  end
 
   namespace :me do
+    get '/library/likes', to: 'libraries#likes'
+
     resource :spaces, only: [:show] do
       collection do
         get :name
@@ -85,8 +89,8 @@ Rails.application.routes.draw do
         get :term
       end
     end
+
     resources :notifications, only: [:index]
-    resource :likes, only: [:show]
     resource :email, only: [:show, :create, :update]
     resource :password, only: [:update]
   end

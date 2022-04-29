@@ -1,6 +1,5 @@
 class Talk < ApplicationRecord
   include Rails.application.routes.url_helpers
-  include CurrentUserConditions
   # ___________________________________________________________________________
   #
   has_many :comments, as: :commentable, dependent: :destroy
