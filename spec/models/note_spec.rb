@@ -1,20 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe Note, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
-  # it 'タイトルと本文があれば有効' do
-  #   expect(build(:note)).to be_valid
-  # end
+  it '更新時にtitleがあれば有効' do
+    note = create(:note, :initial_note)
 
-  # it 'タイトルがなければ無効' do
-  #   note = build(:note, title: nil)
-  #   note.valid?
-  #   expect(note.errors[:title]).to include('を入力してください')
-  # end
+    expect { note.update!(title: 'new title') }.not_to raise_error
+  end
 
-  # it '本文がなければ無効' do
-  #   note = build(:note, body: nil)
-  #   note.valid?
-  #   expect(note.errors[:body]).to include('を入力してください')
-  # end
+  it '更新時にtitleがなければ無効' do
+    note = create(:note, :initial_note)
+
+    expect { note.update!(title: '', body_text: 'new body') }.to raise_error(ActiveRecord::RecordInvalid)
+  end
+
+  it '更新時に本文がなければ無効' do
+    note = create(:note, :initial_note)
+
+    expect { note.update!(title: 'new title', body_text: 'a' * 40_000) }.not_to raise_error
+    expect { note.update!(title: 'new title', body_text: 'a' * 40_001) }.to raise_error(ActiveRecord::RecordInvalid)
+  end
 end

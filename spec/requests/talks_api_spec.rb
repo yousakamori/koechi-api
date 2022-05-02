@@ -26,7 +26,7 @@ RSpec.describe 'Talks API', type: :request do
     it 'talkの作成' do
       log_in_as(user.email, 'passw0rd')
 
-      expect { post '/talks', params: { title: 'title' } }.to change(Talk, :count).by(+1)
+      expect { post '/talks', params: { title: 'new talk title' } }.to change(Talk, :count).by(+1)
       expect(response).to have_http_status :ok
     end
   end
@@ -34,11 +34,11 @@ RSpec.describe 'Talks API', type: :request do
   describe 'PUT /talks/' do
     it 'talkの編集' do
       log_in_as(user.email, 'passw0rd')
-      talk = create(:talk, title: 'old title', user: user)
-      put "/talks/#{talk.slug}", params: { title: 'new title' }
+      talk = create(:talk, title: 'new talk title', user: user)
+      put "/talks/#{talk.slug}", params: { title: 'edit talk title' }
 
       expect(response).to have_http_status :no_content
-      expect(Talk.first.title).to eq('new title')
+      expect(Talk.first.title).to eq('edit talk title')
     end
   end
 

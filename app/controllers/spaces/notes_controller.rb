@@ -12,7 +12,7 @@ class Spaces::NotesController < ApplicationController
 
   def create
     posted_at = Time.zone.at(params[:posted_at]) || Time.current
-    note = @current_user.notes.create!(space_id: @space.id, posted_at: posted_at)
+    note = @current_user.notes.create!(title: '', space_id: @space.id, posted_at: posted_at)
 
     render json: { slug: note.slug }
   end

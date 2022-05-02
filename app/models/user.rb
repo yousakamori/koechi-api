@@ -68,8 +68,8 @@ class User < ApplicationRecord
 
   validates :role, presence: true
 
-  validates :avatar, attached: true, allow_blank: true, content_type: ['image/png', 'image/jpeg', 'image/gif'],
-                     size: { less_than: 5.megabytes }
+  validates :avatar, attached: true, allow_blank: true,
+                     content_type: ['image/png', 'image/jpeg', 'image/gif'], size: { less_than: 5.megabytes }
   # ___________________________________________________________________________
   #
   def email_registration!
@@ -148,7 +148,7 @@ class User < ApplicationRecord
   end
 
   def send_activation_needed_email
-    UserMailer.activation_needed_email(self).deliver_now
+    UserMailer.activation_needed_email(self).deliver_later
   end
 
   # TODO: メールの文章修正
@@ -160,7 +160,7 @@ class User < ApplicationRecord
   end
 
   def send_reset_password_email
-    UserMailer.reset_password_email(self).deliver_now
+    UserMailer.reset_password_email(self).deliver_later
   end
 
   # TODO: メールの文章修正
@@ -172,6 +172,6 @@ class User < ApplicationRecord
   end
 
   def send_reset_email
-    UserMailer.reset_email(self).deliver_now
+    UserMailer.reset_email(self).deliver_later
   end
 end

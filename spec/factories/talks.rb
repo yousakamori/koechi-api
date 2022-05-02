@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :talk do
-    title { 'title' }
+    title { 'talk title' }
     association :user
   end
 end

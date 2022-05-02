@@ -10,24 +10,18 @@ class Comment < ApplicationRecord
   belongs_to :parent, class_name: 'Comment', optional: true
   # ___________________________________________________________________________
   #
-  counter_culture :commentable, column_name: 'comments_count'
+  counter_culture :commentable, column_name: 'comments_count', touch: 'last_comment_created_at'
   # ___________________________________________________________________________
   #
   validates :body_json, presence: true
   validates :commentable_type, presence: true, inclusion: { in: %w[Talk Note] }
   # ___________________________________________________________________________
   #
-  after_save :update_last_comment_created_at!
-  after_destroy :update_last_comment_created_at!
   before_create SetSlug.new
   before_update { |comment| comment.body_updated_at = Time.current }
   # ___________________________________________________________________________
   #
   def reply
     !!parent_id
-  end
-
-  def update_last_comment_created_at!
-    commentable.update!(last_comment_created_at: commentable.comments_count.positive? ? updated_at : nil)
   end
 end

@@ -9,12 +9,20 @@ FactoryBot.define do
       liked { false }
     end
 
+    trait :for_comment do
+      association :likable, factory: :comment
+    end
+
     trait :for_talk do
       association :likable, factory: :talk
     end
 
-    trait :for_comment do
-      association :likable, factory: :comment
+    trait :for_note do
+      association :likable, factory: :note
+    end
+
+    trait :for_user do
+      association :likable, factory: :user
     end
   end
 end

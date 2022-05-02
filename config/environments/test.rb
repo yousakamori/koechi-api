@@ -61,4 +61,7 @@ Rails.application.configure do
   config.active_storage.service = :local
   Rails.application.routes.default_url_options[:host] = 'localhost'
   Rails.application.routes.default_url_options[:port] = 5000
+
+  # active storageの警告をoff
+  config.active_storage.silence_invalid_content_types_warning = true
 end

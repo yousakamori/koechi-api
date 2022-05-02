@@ -17,6 +17,6 @@ class Membership < ApplicationRecord
   # ___________________________________________________________________________
   #
   def send_member_email(member, space)
-    MemberMailer.member_email(member, space).deliver_now
+    MemberMailer.member_email(member, space).deliver_later
   end
 end

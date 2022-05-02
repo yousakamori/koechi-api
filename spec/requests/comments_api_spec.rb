@@ -10,8 +10,8 @@ RSpec.describe 'Comments API', type: :request do
       log_in_as(user.email, 'passw0rd')
       expect do
         post '/comments',
-             params: { body_text: 'あいうえお',
-                       body_json: '{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"あいうえお"}]}]}',
+             params: { body_text: 'comment body',
+                       body_json: '{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"comment body"}]}]}',
                        parent_id: nil, commentable_id: note.id, commentable_type: 'Note', user: user }
       end.to change(Comment, :count).by(+1)
 
