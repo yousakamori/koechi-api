@@ -99,6 +99,7 @@ RSpec.describe User, type: :model do
     expect(user).to be_invalid
   end
 
+  # TODO: production development testでわける？
   # describe '#avatar_url' do
   #   it do
   #     user = create(:user, :with_avatar)

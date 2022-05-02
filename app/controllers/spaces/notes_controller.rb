@@ -4,7 +4,7 @@ class Spaces::NotesController < ApplicationController
   before_action :authorize_archive
 
   def index
-    @notes = @space.notes.includes([user: { avatar_attachment: :blob }])
+    @notes = @space.notes.includes([:space, { user: { avatar_attachment: :blob } }])
                    .active.order(posted_at: :desc).page(params[:page]).per(10)
 
     render 'index', formats: :json
