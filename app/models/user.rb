@@ -4,7 +4,7 @@ class User < ApplicationRecord
 
   has_secure_password
   has_one_attached :avatar do |attachable|
-    attachable.variant :small, resize: '80x80'
+    attachable.variant :small, { resize: '80x80' }
   end
   # ___________________________________________________________________________
   #
@@ -139,39 +139,42 @@ class User < ApplicationRecord
     self.email = email&.downcase
   end
 
-  # TODO: メールの文章修正
+  # TODO: メールの文章修正 refactor
   ACTIVATION_TOKEN_EXPIRATION_PERIOD = 60.minutes
   def setup_activation_magic_link
     signed_id = signed_id(expires_in: ACTIVATION_TOKEN_EXPIRATION_PERIOD, purpose: :email_activate)
+    # TODO: メールで値取れてない
     self.token_expiration_time = "#{ACTIVATION_TOKEN_EXPIRATION_PERIOD.in_minutes.to_i}分"
     self.magic_link = "#{Rails.configuration.x.app.client_url}/login_with_email?token=#{signed_id}&password=#{password}"
   end
 
   def send_activation_needed_email
-    UserMailer.activation_needed_email(self).deliver_later
+    UserMailer.activation_needed_email(self, magic_link).deliver_later
   end
 
-  # TODO: メールの文章修正
+  # TODO: メールの文章修正 refactor
   PASSWORD_TOKEN_EXPIRATION_PERIOD = 60.minutes
   def setup_reset_password_magic_link
     signed_id = signed_id(expires_in: PASSWORD_TOKEN_EXPIRATION_PERIOD, purpose: :reset_password)
+    # TODO: メールで値取れてない
     self.token_expiration_time = "#{PASSWORD_TOKEN_EXPIRATION_PERIOD.in_minutes.to_i}分"
     self.magic_link = "#{Rails.configuration.x.app.client_url}/update_password?token=#{signed_id}"
   end
 
   def send_reset_password_email
-    UserMailer.reset_password_email(self).deliver_later
+    UserMailer.reset_password_email(self, magic_link).deliver_later
   end
 
-  # TODO: メールの文章修正
+  # TODO: メールの文章修正 refactor
   EMAIL_TOKEN_EXPIRATION_PERIOD = 60.minutes
   def setup_reset_email_magic_link
     signed_id = signed_id(expires_in: EMAIL_TOKEN_EXPIRATION_PERIOD, purpose: :reset_email)
+    # TODO: メールで値取れてない
     self.token_expiration_time = "#{EMAIL_TOKEN_EXPIRATION_PERIOD.in_minutes.to_i}分"
     self.magic_link = "#{Rails.configuration.x.app.client_url}/update_email?token=#{signed_id}"
   end
 
   def send_reset_email
-    UserMailer.reset_email(self).deliver_later
+    UserMailer.reset_email(self, magic_link).deliver_later
   end
 end

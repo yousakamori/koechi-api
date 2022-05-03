@@ -25,11 +25,14 @@ class Notification < ApplicationRecord
   end
 
   def notifiable_slug
-    return nil if action == 'follow'
-
-    return notifiable.space.slug if action == 'invite'
-
-    notifiable.slug
+    case action
+    when 'follow'
+      nil
+    when 'invite'
+      notifiable.space.slug
+    else
+      notifiable.slug
+    end
   end
 
   def notifiable_title
@@ -47,12 +50,29 @@ class Notification < ApplicationRecord
     end
   end
 
-  def self.send_recipient!(action:, recipient:, sender: nil, notifiable: nil)
-    return if recipient == sender
+  class << self
+    def to_recipient!(action:, recipient:, sender: nil, notifiable: nil)
+      return if recipient == sender
 
-    notification = recipient.notifications.find_or_initialize_by(action: action, sender_id: sender.id, notifiable: notifiable)
+      @action = action
+      @recipient = recipient
+      @sender = sender
+      @notifiable = notifiable
 
-    notification.checked = false
-    notification.save!
+      notification = recipient.notifications.find_or_initialize_by!(action: action, sender_id: sender.id, notifiable: notifiable)
+      notification.checked = false
+      notification.save!
+
+      send_email!
+    end
+
+    private
+
+    def send_email!
+      # return unless %w[follow comment comment_reply like invite].include?(@action)
+      return unless %w[follow comment_reply like invite].include?(@action)
+
+      NotificationMailer.public_send(@action.to_sym, @recipient, @sender, @notifiable).deliver_later
+    end
   end
 end

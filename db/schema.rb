@@ -64,6 +64,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_28_001743) do
     t.bigint "following_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["follower_id", "following_id"], name: "index_follow_relationships_on_follower_id_and_following_id", unique: true
     t.index ["follower_id"], name: "index_follow_relationships_on_follower_id"
     t.index ["following_id"], name: "index_follow_relationships_on_following_id"
   end
@@ -169,6 +170,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_28_001743) do
     t.datetime "activated_at"
     t.datetime "locked_at"
     t.boolean "email_notify_comments", default: true, null: false
+    t.boolean "email_notify_likes", default: true, null: false
     t.boolean "email_notify_followings", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

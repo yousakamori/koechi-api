@@ -7,6 +7,7 @@ class MesController < ApplicationController
 
   def update
     if me_params[:avatar]
+      # TODO: minimagixk => ruby-vipsにしたい
       # オリジナル画像を処理
       image = MiniMagick::Image.new(me_params[:avatar].tempfile.path)
       image.auto_orient
@@ -56,7 +57,8 @@ class MesController < ApplicationController
       # 初会登録
       params.permit(:id, :name, :password, :username, :bio, :avatar)
     else
-      params.permit(:id, :name, :bio, :avatar, :twitter_username)
+      # 更新
+      params.permit(:id, :name, :bio, :avatar, :twitter_username, :email_notify_comments, :email_notify_followings, :email_notify_likes)
     end
   end
 end

@@ -12,17 +12,18 @@ class CommentsController < ApplicationController
       action = @comment.parent_id ? 'comment_reply' : 'comment'
 
       if action == 'comment_reply'
+        # 返信コメント
         recipients = @comment.parent.children.map(&:user).push(@comment.parent.user).uniq
 
         recipients.each do |recipient|
-          Notification.send_recipient!(action: action, recipient: recipient, sender: @current_user, notifiable: @comment)
+          Notification.to_recipient!(action: action, recipient: recipient, sender: @current_user, notifiable: @comment)
         end
       end
 
-      if action ==  'comment'
+      if action == 'comment'
         recipient = @comment.commentable.user
 
-        Notification.send_recipient!(action: action, recipient: recipient, sender: @current_user, notifiable: @comment)
+        Notification.to_recipient!(action: action, recipient: recipient, sender: @current_user, notifiable: @comment)
       end
     end
 

@@ -15,7 +15,7 @@ class Spaces::MembersController < ApplicationController
     ActiveRecord::Base.transaction do
       @member = Membership.create!(user_id: @user.id, space_id: @space.id)
 
-      Notification.send_recipient!(action: 'invite', recipient: @user, sender: @current_user, notifiable: @member)
+      Notification.to_recipient!(action: 'invite', recipient: @user, sender: @current_user, notifiable: @member)
     end
 
     @member&.send_member_email(@user, @space)

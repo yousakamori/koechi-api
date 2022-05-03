@@ -44,6 +44,7 @@ gem 'emoji_regex'
 # search
 gem 'ransack'
 
+# json
 gem 'jbuilder'
 
 group :development, :test do

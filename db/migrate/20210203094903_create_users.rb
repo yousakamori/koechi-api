@@ -16,6 +16,7 @@ class CreateUsers < ActiveRecord::Migration[6.1]
       t.datetime :activated_at, precision: 6, default: nil
       t.datetime :locked_at, precision: 6, default: nil
       t.boolean :email_notify_comments, null: false, default: true
+      t.boolean :email_notify_likes, null: false, default: true
       t.boolean :email_notify_followings, null: false, default: true
 
       t.timestamps
