@@ -149,7 +149,7 @@ class User < ApplicationRecord
   end
 
   def send_activation_needed_email
-    UserMailer.activation_needed_email(self, magic_link).deliver_later
+    UserMailer.activation_needed_email(self, magic_link, token_expiration_time).deliver_later
   end
 
   # TODO: メールの文章修正 refactor
@@ -162,7 +162,7 @@ class User < ApplicationRecord
   end
 
   def send_reset_password_email
-    UserMailer.reset_password_email(self, magic_link).deliver_later
+    UserMailer.reset_password_email(self, magic_link, token_expiration_time).deliver_later
   end
 
   # TODO: メールの文章修正 refactor
@@ -175,6 +175,6 @@ class User < ApplicationRecord
   end
 
   def send_reset_email
-    UserMailer.reset_email(self, magic_link).deliver_later
+    UserMailer.reset_email(self, magic_link, token_expiration_time).deliver_later
   end
 end

@@ -8,22 +8,17 @@ class CommentsController < ApplicationController
     ActiveRecord::Base.transaction do
       @comment.save!
 
-      # notification
-      action = @comment.parent_id ? 'comment_reply' : 'comment'
+      if @comment.parent_id.nil?
+        recipient = @comment.commentable.user
 
-      if action == 'comment_reply'
+        Notification.to_recipient!(action: 'comment', recipient: recipient, sender: @current_user, notifiable: @comment)
+      else
         # 返信コメント
         recipients = @comment.parent.children.map(&:user).push(@comment.parent.user).uniq
 
-        recipients.each do |recipient|
-          Notification.to_recipient!(action: action, recipient: recipient, sender: @current_user, notifiable: @comment)
+        recipients.each do |r|
+          Notification.to_recipient!(action: 'comment_reply', recipient: r, sender: @current_user, notifiable: @comment)
         end
-      end
-
-      if action == 'comment'
-        recipient = @comment.commentable.user
-
-        Notification.to_recipient!(action: action, recipient: recipient, sender: @current_user, notifiable: @comment)
       end
     end
 

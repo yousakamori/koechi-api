@@ -1,4 +1,82 @@
-<h1><%= Rails.configuration.x.app.name %>へようこそ！</h1>
-<p><%= @user.token_expiration_time %>以内に下記へアクセスし、登録を完了してください。</p>
-<%= link_to "メールアドレスを認証", "#{@link}" %>
-<p><%= "#{@link}" %></p>
+<div class="preheader" style="display: none; max-width: 0; max-height: 0; overflow: hidden; font-size: 1px; line-height: 1px; color: #fff; opacity: 0;">
+  ようこそ<%= Rails.configuration.x.app.name %>へ!
+</div>
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+  <tr>
+    <td align="center">
+      <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+        <tr>
+          <td align="center" valign="top" style="padding: 36px 24px;">
+            <a href=<%= Rails.configuration.x.app.client_url %> target="_blank" style="display: inline-block;">
+              <img src=<%= "#{Rails.configuration.x.app.client_url}/images/email-logo.png" %> alt="Logo" border="0" width="180" style="display: block; width: 180px; max-width: 180px; min-width: 180px;">
+            </a>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+        <tr>
+          <td align="left" bgcolor="#ffffff" style="padding: 36px 24px 0; border-radius: 7px 7px 0 0;">
+            <h1 style="margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -1px; line-height: 48px;">
+              ようこそ<%= Rails.configuration.x.app.name %>へ!
+            </h1>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+        <tr>
+          <td align="left" bgcolor="#ffffff" style="padding: 24px; line-height: 24px;">
+            <p style="margin: 0;"><%= @token_expiration_time %>以内に下記へアクセスし、登録を完了してください。</p>
+          </td>
+        </tr>
+        <tr>
+          <td align="left" bgcolor="#ffffff">
+            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+              <tr>
+                <td align="center" bgcolor="#ffffff" style="padding: 12px;">
+                  <table border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                      <td align="center" bgcolor="#2563eb" style="border-radius: 7px;">
+                        <a href=<%= @link %> target="_blank" style="display: inline-block; padding: 12px 16px; color: #ffffff; text-decoration: none; border-radius: 6px;">メールアドレスを認証</a>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td align="left" bgcolor="#ffffff" style="padding: 24px; line-height: 24px; border-radius: 0 0 7px 7px;">
+            <p style="margin: 0;">うまくいかない場合は、以下のリンクをブラウザに貼り付けてください。</p>
+            <p style="margin: 0; word-break: break-all;">
+              <a href=<%= @link %> target="_blank"><%= @link %></a>
+            </p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" style="padding: 24px;">
+      <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+        <tr>
+          <td align="left" style="padding: 12px 24px; line-height: 20px; color: #666;">
+            <p style="margin: 0;">
+              ※ このメールアドレスは送信専用のため、返信は受け付けておりません。 
+              <br style="margin: 0px; padding: 0px;">
+              ※ このメールにお心当たりの無い場合は、このメールを破棄してください。
+            </p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
