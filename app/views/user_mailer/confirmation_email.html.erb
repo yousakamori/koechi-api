@@ -7,7 +7,7 @@
       <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
         <tr>
           <td align="center" valign="top" style="padding: 36px 24px;">
-            <a href=<%= Rails.configuration.x.app.client_url %> target="_blank" style="display: inline-block;">
+            <a href=<%= Rails.configuration.x.app.client_url %> target="_blank" style="display: inline-block;" rel='noopener noreferrer'>
               <img src=<%= "#{Rails.configuration.x.app.client_url}/images/email-logo.png" %> alt="Logo" border="0" width="180" style="display: block; width: 180px; max-width: 180px; min-width: 180px;">
             </a>
           </td>
@@ -44,7 +44,7 @@
                   <table border="0" cellpadding="0" cellspacing="0">
                     <tr>
                       <td align="center" bgcolor="#2563eb" style="border-radius: 7px;">
-                        <a href=<%= @link %> target="_blank" style="display: inline-block; padding: 12px 16px; color: #ffffff; text-decoration: none; border-radius: 6px;">メールアドレスを認証</a>
+                        <a href=<%= @magic_link %> target="_blank" style="display: inline-block; padding: 12px 16px; color: #ffffff; text-decoration: none; border-radius: 6px;" rel='noopener noreferrer'>メールアドレスを認証</a>
                       </td>
                     </tr>
                   </table>
@@ -57,7 +57,7 @@
           <td align="left" bgcolor="#ffffff" style="padding: 24px; line-height: 24px; border-radius: 0 0 7px 7px;">
             <p style="margin: 0;">うまくいかない場合は、以下のリンクをブラウザに貼り付けてください。</p>
             <p style="margin: 0; word-break: break-all;">
-              <a href=<%= @link %> target="_blank"><%= @link %></a>
+              <a href=<%= @magic_link %> target="_blank" rel='noopener noreferrer'><%= @magic_link %></a>
             </p>
           </td>
         </tr>
@@ -68,11 +68,14 @@
     <td align="center" style="padding: 24px;">
       <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
         <tr>
-          <td align="left" style="padding: 12px 24px; line-height: 20px; color: #666;">
-            <p style="margin: 0;">
-              ※ このメールアドレスは送信専用のため、返信は受け付けておりません。 
+          <td style="padding:15px 0;"></td>
+        </tr>
+        <tr>
+          <td align="left" style="padding: 12px 24px; line-height: 20px; border-top:1px solid rgba(0,0,0,0.1)">
+            <p style="margin: 0; font-size: 13px">
+              ※ このメールは送信専用のため、返信は受け付けておりません。 
               <br style="margin: 0px; padding: 0px;">
-              ※ このメールにお心当たりの無い場合は、このメールを破棄してください。
+              ※ このメールにお心当たりの無い場合は破棄してください。
             </p>
           </td>
         </tr>

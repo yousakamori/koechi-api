@@ -1,35 +1,49 @@
-<table border="0" cellpadding="0" cellspacing="0" style="padding:40px 15px;width:100%;max-width:540px;margin:0 auto;">
-  <tbody>
-    <tr>
-      <td>
-        <a href=<%= Rails.configuration.x.app.client_url %> target="_blank" rel="noopener noreferrer">
-          <img alt="koechi" src=<%= "#{Rails.configuration.x.app.client_url}/images/logo.svg" %> style="width:120px;height: 28px">
-        </a>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <table  border="0" cellpadding="0" cellspacing="0" style="width:100%;margin:0 auto">
-          <tbody>
-            <tr>
-              <td>
-                <div style="font-size: 0.95em;background: #FFF;padding: 20px 15px;margin-top: 17px;border-radius: 7px;">
-                  <%= @sender.name %>（<a target="_blank" rel="noopener noreferrer" href=<%= "#{Rails.configuration.x.app.client_url}/#{@sender.username}" %>>@<%= @sender.username %></a>）さんが
-                    <a target="_blank" rel="noopener noreferrer" href=<%= "#{Rails.configuration.x.app.client_url}/link/comments/#{@notifiable.slug}" %>>あなたのコメント</a>に返信しました
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td style="padding:15px 0;"></td>
-              </tr>
-              <tr>
-                <td style="width:100%; padding-top:15px; text-align:center; border-top:1px solid rgba(0,0,0,0.1)">
-                  <a href=<%= "#{Rails.configuration.x.app.client_url}/settings/account" %> style="color: rgba(0,0,0,0.5);font-size: 13px" target='_blank' rel='noopener noreferrer'>通知設定を変更する</a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+<div class="preheader" style="display: none; max-width: 0; max-height: 0; overflow: hidden; font-size: 1px; line-height: 1px; color: #fff; opacity: 0;">
+  コメントに返信がありました
+</div>
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+  <tr>
+    <td align="center">
+      <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+        <tr>
+          <td align="center" valign="top" style="padding: 36px 24px;">
+            <a href=<%= Rails.configuration.x.app.client_url %> target="_blank" style="display: inline-block;" rel='noopener noreferrer'>
+              <img src=<%= "#{Rails.configuration.x.app.client_url}/images/email-logo.png" %> alt="Logo" border="0" width="180" style="display: block; width: 180px; max-width: 180px; min-width: 180px;">
+            </a>
           </td>
         </tr>
-      </tbody>
-    </table>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+        <tr>
+          <td align="left" bgcolor="#ffffff" style="padding: 36px 24px; border-radius: 7px;">
+            <%= @sender.name %>(
+            <a target="_blank" href=<%= "#{Rails.configuration.x.app.client_url}/#{@sender.username}" %> rel="noopener noreferrer">
+              @<%= @sender.username %>
+            </a>)さんが
+            <a target="_blank" href=<%= "#{Rails.configuration.x.app.client_url}/link/comments/#{@notifiable.slug}" %> rel="noopener noreferrer" >
+              あなたのコメント
+            </a>に返信しました
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" style="padding: 24px;">
+      <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+        <tr>
+          <td style="padding:15px 0;"></td>
+        </tr>
+        <tr>
+          <td align="center" style="padding: 12px 24px; line-height: 20px; border-top:1px solid rgba(0,0,0,0.1)">
+            <a href=<%= "#{Rails.configuration.x.app.client_url}/settings/account" %> style="color: rgba(0,0,0,0.5); font-size: 13px" target='_blank' rel='noopener noreferrer'>通知設定を変更する</a>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>

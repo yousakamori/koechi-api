@@ -4,8 +4,12 @@ class UsersController < ApplicationController
   # ___________________________________________________________________________
   #
   def create
-    user = User.find_or_initialize_by(user_params.merge(activated_at: nil))
-    user.email_registration!
+    password = User.generate_signup_code
+    user = User.find_or_initialize_by(user_params.merge(username: nil))
+    user.password = password
+    user.save!
+    user.send_email!(:confirmation_email, password)
+
     head :no_content
   end
 

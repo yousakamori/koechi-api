@@ -11,13 +11,13 @@ class CommentsController < ApplicationController
       if @comment.parent_id.nil?
         recipient = @comment.commentable.user
 
-        Notification.to_recipient!(action: 'comment', recipient: recipient, sender: @current_user, notifiable: @comment)
+        Notification.to_recipient!(action: :comment, recipient: recipient, sender: @current_user, notifiable: @comment)
       else
         # 返信コメント
         recipients = @comment.parent.children.map(&:user).push(@comment.parent.user).uniq
 
         recipients.each do |r|
-          Notification.to_recipient!(action: 'comment_reply', recipient: r, sender: @current_user, notifiable: @comment)
+          Notification.to_recipient!(action: :comment_reply, recipient: r, sender: @current_user, notifiable: @comment)
         end
       end
     end

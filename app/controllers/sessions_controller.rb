@@ -2,10 +2,12 @@ class SessionsController < ApplicationController
   skip_before_action :authenticate_user
 
   def create
-    user = User.find_signed(params[:token], purpose: :email_activate) if params[:token]
-    user = User.find_by(email: params[:email]&.downcase) if params[:email]
+    if params[:token]
+      user = User.find_signed(params[:token], purpose: :confirmation_email)
+    elsif params[:email]
+      user = User.find_by(email: params[:email]&.downcase)
+    end
 
-    # TODO:  user.activated?処理追加する？
     if user&.authenticate(params[:password])
       login(user)
       render 'mes/show', formats: :json

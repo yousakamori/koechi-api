@@ -38,6 +38,7 @@ class MesController < ApplicationController
     end
   end
 
+  # TODO: 外に出す？
   def liked
     liked = @current_user.likes.exists?(liked: true, likable_id: params[:likable_id], likable_type: params[:likable_type])
 

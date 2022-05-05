@@ -5,7 +5,8 @@ class Me::EmailsController < ApplicationController
 
   def create
     current_user.update!(unconfirmed_email: me_params[:email])
-    current_user.reset_email
+    current_user.send_email!(:reset_email)
+
     head :no_content
   end
 

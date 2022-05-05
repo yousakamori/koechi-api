@@ -15,7 +15,7 @@ class Spaces::MembersController < ApplicationController
     ActiveRecord::Base.transaction do
       @member = Membership.create!(user_id: @user.id, space_id: @space.id)
 
-      Notification.to_recipient!(action: 'invite', recipient: @user, sender: @current_user, notifiable: @member)
+      Notification.to_recipient!(action: :invite, recipient: @user, sender: @current_user, notifiable: @member)
     end
 
     @member&.send_member_email(@user, @space)
@@ -25,13 +25,8 @@ class Spaces::MembersController < ApplicationController
 
   def update
     member = Membership.find_by(space_id: @space.id, user_id: @user.id)
-
-    # TODO
-    if params[:role] == 'admin'
-      member.admin! unless member.admin?
-    elsif params[:role] == 'member'
-      member.member! unless member.member?
-    end
+    member.admin! if params[:role] == 'admin' && !member.admin?
+    member.member! if params[:role] == 'member' && !member.member?
 
     head :no_content
   end

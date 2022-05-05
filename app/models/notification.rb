@@ -70,7 +70,7 @@ class Notification < ApplicationRecord
 
     def send_email!
       # return unless %w[follow comment comment_reply like invite].include?(@action)
-      return unless %w[follow comment_reply like invite].include?(@action)
+      return unless %w[comment_reply].include?(@action)
 
       NotificationMailer.public_send(@action.to_sym, @recipient, @sender, @notifiable).deliver_later
     end

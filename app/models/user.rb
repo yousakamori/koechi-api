@@ -72,25 +72,17 @@ class User < ApplicationRecord
                      content_type: ['image/png', 'image/jpeg', 'image/gif'], size: { less_than: 5.megabytes }
   # ___________________________________________________________________________
   #
-  def email_registration!
-    self.password = User.generate_signup_code
-    save!
-    setup_activation_magic_link
-    send_activation_needed_email
-    self
-  end
+  TOKEN_EXPIRATION_PERIOD = {
+    confirmation_email: 60.minutes,
+    reset_email: 60.minutes,
+    reset_password: 60.minutes
+  }.freeze
 
-  def reset_password
-    setup_reset_password_magic_link
-    send_reset_password_email
-    self
-  end
-
-  def reset_email
-    setup_reset_email_magic_link
-    send_reset_email
-    self
-  end
+  MAGIC_LINKS = {
+    confirmation_email: "#{Rails.configuration.x.app.client_url}/login_with_email",
+    reset_email: "#{Rails.configuration.x.app.client_url}/update_email",
+    reset_password: "#{Rails.configuration.x.app.client_url}/update_password"
+  }.freeze
 
   def avatar_url
     cdn_image_url(avatar) if avatar.attached?
@@ -114,11 +106,23 @@ class User < ApplicationRecord
   end
 
   def activated?
-    !activated_at.nil?
+    !username.nil?
   end
 
   def autolinked_bio
     Rinku.auto_link(bio, :all, 'target="_blank" rel="nofollow noopener noreferrer"')
+  end
+
+  def send_email!(action, password = nil)
+    token_expiration_period = TOKEN_EXPIRATION_PERIOD[action]
+    base_magic_link = MAGIC_LINKS[action]
+    signed_id = signed_id(expires_in: token_expiration_period, purpose: action)
+
+    magic_link = "#{base_magic_link}?token=#{signed_id}"
+    magic_link << "&password=#{password}" if password
+
+    token_expiration_time = "#{token_expiration_period.in_minutes.to_i}分"
+    UserMailer.public_send(action, self, magic_link, token_expiration_time).deliver_later
   end
   # ___________________________________________________________________________
   #
@@ -137,44 +141,5 @@ class User < ApplicationRecord
 
   def downcase_email
     self.email = email&.downcase
-  end
-
-  # TODO: メールの文章修正 refactor
-  ACTIVATION_TOKEN_EXPIRATION_PERIOD = 60.minutes
-  def setup_activation_magic_link
-    signed_id = signed_id(expires_in: ACTIVATION_TOKEN_EXPIRATION_PERIOD, purpose: :email_activate)
-    # TODO: メールで値取れてない
-    self.token_expiration_time = "#{ACTIVATION_TOKEN_EXPIRATION_PERIOD.in_minutes.to_i}分"
-    self.magic_link = "#{Rails.configuration.x.app.client_url}/login_with_email?token=#{signed_id}&password=#{password}"
-  end
-
-  def send_activation_needed_email
-    UserMailer.activation_needed_email(self, magic_link, token_expiration_time).deliver_later
-  end
-
-  # TODO: メールの文章修正 refactor
-  PASSWORD_TOKEN_EXPIRATION_PERIOD = 60.minutes
-  def setup_reset_password_magic_link
-    signed_id = signed_id(expires_in: PASSWORD_TOKEN_EXPIRATION_PERIOD, purpose: :reset_password)
-    # TODO: メールで値取れてない
-    self.token_expiration_time = "#{PASSWORD_TOKEN_EXPIRATION_PERIOD.in_minutes.to_i}分"
-    self.magic_link = "#{Rails.configuration.x.app.client_url}/update_password?token=#{signed_id}"
-  end
-
-  def send_reset_password_email
-    UserMailer.reset_password_email(self, magic_link, token_expiration_time).deliver_later
-  end
-
-  # TODO: メールの文章修正 refactor
-  EMAIL_TOKEN_EXPIRATION_PERIOD = 60.minutes
-  def setup_reset_email_magic_link
-    signed_id = signed_id(expires_in: EMAIL_TOKEN_EXPIRATION_PERIOD, purpose: :reset_email)
-    # TODO: メールで値取れてない
-    self.token_expiration_time = "#{EMAIL_TOKEN_EXPIRATION_PERIOD.in_minutes.to_i}分"
-    self.magic_link = "#{Rails.configuration.x.app.client_url}/update_email?token=#{signed_id}"
-  end
-
-  def send_reset_email
-    UserMailer.reset_email(self, magic_link, token_expiration_time).deliver_later
   end
 end

@@ -6,8 +6,7 @@ class FollowRelationshipsController < ApplicationController
 
       # notification
       recipient = User.find(params[:user_id])
-
-      Notification.to_recipient!(action: 'follow', recipient: recipient, sender: @current_user)
+      Notification.to_recipient!(action: :follow, recipient: recipient, sender: @current_user)
     end
 
     head :no_content

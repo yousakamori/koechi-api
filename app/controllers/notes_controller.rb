@@ -16,7 +16,7 @@ class NotesController < ApplicationController
   def update
     ActiveRecord::Base.transaction do
       @note.update!(note_params)
-      Notification.to_recipient!(action: 'note', recipient: @note.space.owner, sender: @current_user, notifiable: @note)
+      Notification.to_recipient!(action: :note, recipient: @note.space.owner, sender: @current_user, notifiable: @note)
     end
 
     head :no_content

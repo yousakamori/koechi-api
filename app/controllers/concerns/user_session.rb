@@ -4,9 +4,11 @@ module UserSession
   private
 
   def authenticate_user
-    # TODO
-    # head :unauthorized unless current_user&.activated?
-    head :bad_request unless current_user
+    if current_user.nil?
+      json_response({ message: 'アカウント登録もしくはログインしてください' }, :unauthorized)
+    elsif params[:controller] != 'mes' && @current_user.username.nil?
+      json_response({ message: 'ユーザー名を登録してください' }, :bad_request)
+    end
   end
 
   def current_user

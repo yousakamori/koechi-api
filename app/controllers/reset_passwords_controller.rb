@@ -4,7 +4,7 @@ class ResetPasswordsController < ApplicationController
 
   def create
     user = User.find_by(email: params[:email])
-    user&.reset_password
+    user&.send_email!(:reset_password)
 
     head :no_content
   end

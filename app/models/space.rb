@@ -5,8 +5,8 @@ class Space < ApplicationRecord
   belongs_to :owner, class_name: 'User'
   # ___________________________________________________________________________
   #
-  validates :name, presence: true, length: { maximum: 70, allow_blank: true }
   validates :emoji, presence: true, length: { maximum: 50, allow_blank: true }
+  validates :name, presence: true, length: { maximum: 70, allow_blank: true }
   # ___________________________________________________________________________
   #
   before_create SetSlug.new
@@ -29,6 +29,8 @@ class Space < ApplicationRecord
   end
 
   def format_emoji
+    return if emoji.nil?
+
     self.emoji = emoji.scan(EmojiRegex::Regex).first
   end
 end
