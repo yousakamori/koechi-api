@@ -16,7 +16,7 @@ class LinksController < ApplicationController
       json_response({ path: "#{Rails.configuration.x.app.client_url}/#{params[:type]}/#{slug}" })
     when 'Comment'
       username = resource.commentable.user.username
-      type = resource.commentable_type.pluralize.downcase
+      type = resource.commentable_type.pluralize.underscore
       slug = resource.commentable.slug
       hash = "#comment-#{resource.slug}"
 

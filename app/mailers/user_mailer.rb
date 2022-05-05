@@ -3,7 +3,7 @@ class UserMailer < ApplicationMailer
     @user = user
     @magic_link = magic_link
     @token_expiration_time = token_expiration_time
-    mail to: user.email, subject: 'メールアドレスのご確認'
+    mail to: user.email, subject: 'メールアドレスの確認'
   end
 
   def reset_password(user, magic_link, token_expiration_time)

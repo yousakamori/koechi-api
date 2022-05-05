@@ -17,6 +17,7 @@ class Membership < ApplicationRecord
   # ___________________________________________________________________________
   #
   def send_member_email(member, space)
+    # TODO: notificationへ　or いらない？
     MemberMailer.member_email(member, space).deliver_later
   end
 end

@@ -69,10 +69,14 @@ class Notification < ApplicationRecord
     private
 
     def send_email!
-      # return unless %w[follow comment comment_reply like invite].include?(@action)
-      return unless %w[comment_reply].include?(@action)
+      # return unless [:follow, :comment, :comment_reply, :like, :invite].include?(@action)
 
-      NotificationMailer.public_send(@action.to_sym, @recipient, @sender, @notifiable).deliver_later
+      return unless [:follow, :comment, :comment_reply, :like].include?(@action)
+      return if [:comment, :comment_reply].include?(@action) && !@recipient.email_notify_comments
+      return if @action == :like && !@recipient.email_notify_likes
+      return if @action == :follow && !@recipient.email_notify_followings
+
+      NotificationMailer.public_send(@action, @recipient, @sender, @notifiable).deliver_later
     end
   end
 end
