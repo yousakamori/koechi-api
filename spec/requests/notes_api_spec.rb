@@ -22,7 +22,8 @@ RSpec.describe 'Notes API', type: :request do
       note = create(:note, title: 'title', body_text: 'body text',
                            body_json: 'body json', posted_at: Time.current, user: user)
       put "/notes/#{note.slug}",
-          params: { title: 'new title', body_text: 'new body text', body_json: 'new body json', posted_at: new_posted_at }
+          params: { title: 'new title', body_text: 'new body text', body_json: 'new body json',
+                    posted_at: new_posted_at }
       expect(response).to have_http_status :no_content
 
       new_note = Note.first

@@ -1,6 +1,6 @@
 class Me::SpacesController < ApplicationController
   def show
-    @spaces = @current_user.spaces.includes([:memberships, :owner]).order(created_at: :desc)
+    @spaces = @current_user.spaces.includes(%i[memberships owner]).order(created_at: :desc)
 
     render 'show', formats: :json
   end

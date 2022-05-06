@@ -1,8 +1,8 @@
 class Spaces::MembersController < ApplicationController
   before_action :set_space
   before_action :authorize_user
-  before_action :set_user, only: [:create, :update, :destroy]
-  before_action :authorize_owner, only: [:update, :destroy]
+  before_action :set_user, only: %i[create update destroy]
+  before_action :authorize_owner, only: %i[update destroy]
 
   def show
     @members = Membership.includes([user: { avatar_attachment: :blob }]).where(space_id: @space.id)

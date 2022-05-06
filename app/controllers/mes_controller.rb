@@ -40,7 +40,8 @@ class MesController < ApplicationController
 
   # TODO: 外に出す？
   def liked
-    liked = @current_user.likes.exists?(liked: true, likable_id: params[:likable_id], likable_type: params[:likable_type])
+    liked = @current_user.likes.exists?(liked: true, likable_id: params[:likable_id],
+                                        likable_type: params[:likable_type])
 
     render json: { liked: liked }
   end
@@ -59,7 +60,8 @@ class MesController < ApplicationController
       params.permit(:id, :name, :password, :username, :bio, :avatar)
     else
       # 更新
-      params.permit(:id, :name, :bio, :avatar, :twitter_username, :email_notify_comments, :email_notify_followings, :email_notify_likes)
+      params.permit(:id, :name, :bio, :avatar, :twitter_username, :email_notify_comments, :email_notify_followings,
+                    :email_notify_likes)
     end
   end
 end

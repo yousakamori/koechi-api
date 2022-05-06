@@ -1,6 +1,6 @@
 class ResetPasswordsController < ApplicationController
   skip_before_action :authenticate_user
-  before_action :set_user, only: [:check_token, :update]
+  before_action :set_user, only: %i[check_token update]
 
   def create
     user = User.find_by(email: params[:email])

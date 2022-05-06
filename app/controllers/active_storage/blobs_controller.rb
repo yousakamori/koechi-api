@@ -1,6 +1,6 @@
-# TODO: 使ってない
 class ActiveStorage::BlobsController < ActiveStorage::BaseController
   include ActiveStorage::SetBlob
+  # TODO: 使ってない
 
   def show
     expires_in ActiveStorage.service_urls_expire_in

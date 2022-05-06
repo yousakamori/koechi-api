@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   skip_before_action :authenticate_user
-  before_action :set_user, only: [:show, :followers, :followings, :comments]
+  before_action :set_user, only: %i[show followers followings comments]
   # ___________________________________________________________________________
   #
   def create

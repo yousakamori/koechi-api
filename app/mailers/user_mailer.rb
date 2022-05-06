@@ -3,7 +3,6 @@ class UserMailer < ApplicationMailer
     @user = user
     @magic_link = magic_link
     @token_expiration_time = token_expiration_time
-
     mail to: user.email, subject: 'メールアドレスの確認'
   end
 
@@ -11,7 +10,6 @@ class UserMailer < ApplicationMailer
     @user = user
     @magic_link = magic_link
     @token_expiration_time = token_expiration_time
-
     mail to: user.email, subject: 'パスワードの再設定'
   end
 
@@ -19,7 +17,6 @@ class UserMailer < ApplicationMailer
     @user = user
     @magic_link = magic_link
     @token_expiration_time = token_expiration_time
-    
     mail to: user.unconfirmed_email, subject: 'メールアドレスの再設定'
   end
 end

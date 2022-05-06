@@ -1,6 +1,6 @@
 class TalksController < ApplicationController
-  skip_before_action :authenticate_user, only: [:index, :show]
-  before_action :set_talk, only: [:update, :destroy]
+  skip_before_action :authenticate_user, only: %i[index show]
+  before_action :set_talk, only: %i[update destroy]
 
   PER_PAGE_TALKS = 30
   def index

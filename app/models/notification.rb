@@ -59,7 +59,8 @@ class Notification < ApplicationRecord
       @sender = sender
       @notifiable = notifiable
 
-      notification = recipient.notifications.find_or_initialize_by(action: action, sender_id: sender.id, notifiable: notifiable)
+      notification = recipient.notifications.find_or_initialize_by(action: action, sender_id: sender.id,
+                                                                   notifiable: notifiable)
       notification.checked = false
       notification.save!
 
@@ -71,8 +72,8 @@ class Notification < ApplicationRecord
     def send_email!
       # return unless [:follow, :comment, :comment_reply, :like, :invite].include?(@action)
 
-      return unless [:follow, :comment, :comment_reply, :like].include?(@action)
-      return if [:comment, :comment_reply].include?(@action) && !@recipient.email_notify_comments
+      return unless %i[follow comment comment_reply like].include?(@action)
+      return if %i[comment comment_reply].include?(@action) && !@recipient.email_notify_comments
       return if @action == :like && !@recipient.email_notify_likes
       return if @action == :follow && !@recipient.email_notify_followings
 

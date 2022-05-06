@@ -6,7 +6,6 @@ class NotificationMailer < ApplicationMailer
     @slug = @notifiable.commentable.slug
     @title = @notifiable.commentable.title.truncate(30)
     @type =  @notifiable.commentable_type.pluralize.underscore
-
     mail to: recipient.email, subject: 'コメントがつきました'
   end
 
@@ -14,7 +13,6 @@ class NotificationMailer < ApplicationMailer
     @recipient = recipient
     @sender = sender
     @notifiable = notifiable
-
     mail to: recipient.email, subject: 'コメントに返信がつきました'
   end
 
@@ -22,7 +20,6 @@ class NotificationMailer < ApplicationMailer
     @recipient = recipient
     @sender = sender
     @notifiable = notifiable
-
     mail to: recipient.email, subject: "#{@recipient.name}さんにフォローされました"
   end
 
@@ -32,7 +29,6 @@ class NotificationMailer < ApplicationMailer
     @notifiable = notifiable
     @type = @notifiable.class.name.pluralize.underscore
     @title = @notifiable.try(:title).try(:truncate, 30) || 'あなたのコメント'
-    
     mail to: recipient.email, subject: "#{@title}がいいねされました"
   end
 end

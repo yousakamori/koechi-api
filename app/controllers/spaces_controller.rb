@@ -1,7 +1,7 @@
 class SpacesController < ApplicationController
-  before_action :set_space, only: [:show, :update, :destroy]
+  before_action :set_space, only: %i[show update destroy]
   before_action :not_archived, only: [:destroy]
-  before_action :authorize_user, only: [:show, :update, :destroy]
+  before_action :authorize_user, only: %i[show update destroy]
 
   def show
     render 'show', formats: :json

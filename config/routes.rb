@@ -39,7 +39,7 @@ Rails.application.routes.draw do
     get 'users'
   end
 
-  resources :users, only: [:create, :show], param: :username do
+  resources :users, only: %i[create show], param: :username do
     member do
       get :followers, :followings
       get :comments
@@ -52,26 +52,26 @@ Rails.application.routes.draw do
     end
   end
 
-  resource :reset_password, only: [:create, :update], param: :username do
+  resource :reset_password, only: %i[create update], param: :username do
     get :check_token
   end
 
-  resources :spaces, only: [:show, :create, :update, :destroy], param: :slug do
-    resources :notes, only: [:index, :create], param: :slug, controller: 'spaces/notes'
-    resource :members, only: [:show, :create, :update, :destroy], param: :slug, controller: 'spaces/members'
+  resources :spaces, only: %i[show create update destroy], param: :slug do
+    resources :notes, only: %i[index create], param: :slug, controller: 'spaces/notes'
+    resource :members, only: %i[show create update destroy], param: :slug, controller: 'spaces/members'
   end
 
   resources :likes, only: [:create]
   resources :links, only: [:index]
-  resources :notes, only: [:edit, :show, :update, :destroy], param: :slug
-  resources :comments, only: [:create, :update, :destroy], param: :slug
-  resources :talks, only: [:index, :create, :update, :show, :destroy], param: :slug do
+  resources :notes, only: %i[edit show update destroy], param: :slug
+  resources :comments, only: %i[create update destroy], param: :slug
+  resources :talks, only: %i[index create update show destroy], param: :slug do
     collection do
       get :archived
     end
   end
 
-  resource :me, only: [:show, :update, :destroy] do
+  resource :me, only: %i[show update destroy] do
     collection { get :liked }
   end
 
@@ -91,7 +91,7 @@ Rails.application.routes.draw do
     end
 
     resources :notifications, only: [:index]
-    resource :email, only: [:show, :create, :update]
+    resource :email, only: %i[show create update]
     resource :password, only: [:update]
   end
 end

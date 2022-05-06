@@ -41,7 +41,8 @@ class SearchesController < ApplicationController
       Talk.ransack({ m: 'and', g: gouping_hash(@keywords, %w[title]) }).result.active.count
 
     if @current_user
-      counts[:notes_count] = my_notes.ransack({ m: 'and', g: gouping_hash(@keywords, %w[title body_text]) }).result.count
+      counts[:notes_count] =
+        my_notes.ransack({ m: 'and', g: gouping_hash(@keywords, %w[title body_text]) }).result.count
     end
 
     json_response(counts)

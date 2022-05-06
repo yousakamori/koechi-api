@@ -15,7 +15,8 @@ class User < ApplicationRecord
   has_many :notifications, foreign_key: :recipient_id, dependent: :delete_all
   has_many :sender_notifications, class_name: 'Notification', foreign_key: :sender_id, dependent: :delete_all
 
-  has_many :following_relationships, class_name: 'FollowRelationship', foreign_key: :follower_id,  dependent: :delete_all
+  has_many :following_relationships, class_name: 'FollowRelationship', foreign_key: :follower_id,
+                                     dependent: :delete_all
   has_many :followings, through: :following_relationships
   has_many :follower_relationships, class_name: 'FollowRelationship', foreign_key: :following_id, dependent: :delete_all
   has_many :followers, through: :follower_relationships
@@ -76,13 +77,13 @@ class User < ApplicationRecord
     confirmation_email: 60.minutes,
     reset_email: 60.minutes,
     reset_password: 60.minutes
-  }.freeze
+  }
 
   MAGIC_LINKS = {
     confirmation_email: "#{Rails.configuration.x.app.client_url}/login_with_email",
     reset_email: "#{Rails.configuration.x.app.client_url}/update_email",
     reset_password: "#{Rails.configuration.x.app.client_url}/update_password"
-  }.freeze
+  }
 
   def avatar_url
     cdn_image_url(avatar) if avatar.attached?

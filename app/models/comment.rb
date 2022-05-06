@@ -3,7 +3,9 @@ class Comment < ApplicationRecord
   # ___________________________________________________________________________
   #
   has_many :likes, -> { where liked: true }, as: :likable, dependent: :destroy
-  has_many :children, -> { order 'created_at ASC' }, class_name: 'Comment', foreign_key: 'parent_id', dependent: :destroy
+  has_many :children, -> {
+                        order 'created_at ASC'
+                      }, class_name: 'Comment', foreign_key: 'parent_id', dependent: :destroy
   has_many :notifications, as: :notifiable, dependent: :destroy
   belongs_to :user
   belongs_to :commentable, polymorphic: true
