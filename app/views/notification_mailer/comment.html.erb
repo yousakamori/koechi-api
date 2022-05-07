@@ -24,7 +24,7 @@
             <a target="_blank" href=<%= "#{Rails.configuration.x.app.client_url}/#{@sender.username}" %> rel="noopener noreferrer">
               @<%= @sender.username %>
             </a>)さんが
-            <a target="_blank" href=<%= "#{Rails.configuration.x.app.client_url}/link/#{@type}/#{@slug}" %> rel="noopener noreferrer" >
+            <a target="_blank" href=<%= @notifiable_link %> rel="noopener noreferrer" >
               <%= @title %>
             </a>にコメントしました
           </td>

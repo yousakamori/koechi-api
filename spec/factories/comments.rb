@@ -4,7 +4,7 @@ FactoryBot.define do
     body_json { '{"type":"doc","content":[{"type":"paragraph","content":[{"type":"text","text":"comment body"}]}]}' }
     parent { nil }
     body_updated_at { nil }
-    slug { '9c9be232234b36' }
+    slug { SecureRandom.hex(7) }
     liked_count { 0 }
     commentable_type { 'Note' }
     association :commentable, factory: :note

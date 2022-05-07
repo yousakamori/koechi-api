@@ -20,16 +20,22 @@ module App
     config.load_defaults 7.0
     config.api_only = true
 
+    # yaml config
+    config.x.app = config_for(:application)
+
     # cookie
     config.middleware.use ActionDispatch::Cookies
+
     # session
-    config.middleware.use ActionDispatch::Session::CookieStore, {
+    session_params = {
+      key: '_koechi_session',
       secure: Rails.env.production?,
       http_only: Rails.env.production?,
       expire_after: 180.days,
-      key: '_koechi_session',
       same_site: 'Lax'
     }
+    session_params[:domain] = '.koechi.com' if Rails.env.production?
+    config.middleware.use ActionDispatch::Session::CookieStore, session_params
 
     # locale
     config.time_zone = 'Tokyo'
@@ -43,16 +49,14 @@ module App
     # auto load lib dir
     config.paths.add Rails.root.join('lib').to_s, eager_load: true
 
+    # rspec
     config.generators do |g|
       g.test_framework :rspec,
                        view_specs: false,
                        helper_specs: false,
                        routing_specs: false
     end
-
-    # yaml config
-    config.x.app = config_for(:application)
-
+    
     # image processor
     config.active_storage.variant_processor = :mini_magick
   end
