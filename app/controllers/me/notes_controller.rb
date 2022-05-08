@@ -5,8 +5,6 @@ class Me::NotesController < ApplicationController
   PER_PAGE_NOTES = 50
   def show
     @notes = @notes.order(posted_at: :desc).page(params[:page]).per(params[:count] || PER_PAGE_NOTES)
-    # posted_at
-    @notes = @notes.where(posted_at: Time.zone.at(params[:posted_at].to_i).all_day) if params[:posted_at]
 
     render 'show', formats: :json
   end
