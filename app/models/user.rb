@@ -77,13 +77,13 @@ class User < ApplicationRecord
     confirmation_email: 60.minutes,
     reset_email: 60.minutes,
     reset_password: 60.minutes
-  }
+  }.freeze
 
   MAGIC_LINKS = {
     confirmation_email: "#{Rails.configuration.x.app.client_url}/login_with_email",
     reset_email: "#{Rails.configuration.x.app.client_url}/update_email",
     reset_password: "#{Rails.configuration.x.app.client_url}/update_password"
-  }
+  }.freeze
 
   def avatar_url
     cdn_image_url(avatar) if avatar.attached?
@@ -118,7 +118,6 @@ class User < ApplicationRecord
     token_expiration_period = TOKEN_EXPIRATION_PERIOD[action]
     base_magic_link = MAGIC_LINKS[action]
     signed_id = signed_id(expires_in: token_expiration_period, purpose: action)
-
     magic_link = "#{base_magic_link}?token=#{signed_id}"
     magic_link << "&password=#{password}" if password
 
