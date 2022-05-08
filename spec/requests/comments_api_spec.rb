@@ -26,7 +26,7 @@ RSpec.describe 'Comments API', type: :request do
       put "/comments/#{comment.slug}", params: { body_text: 'new body' }
 
       expect(response).to have_http_status :no_content
-      expect(Comment.first.body_text).to eq('new body')
+      expect(Comment.last.body_text).to eq('new body')
     end
   end
 

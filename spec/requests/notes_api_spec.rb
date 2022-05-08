@@ -26,7 +26,7 @@ RSpec.describe 'Notes API', type: :request do
                     posted_at: new_posted_at }
       expect(response).to have_http_status :no_content
 
-      new_note = Note.first
+      new_note = Note.last
       expect(new_note.title).to eq('new title')
       expect(new_note.body_text).to eq('new body text')
       expect(new_note.body_json).to eq('new body json')

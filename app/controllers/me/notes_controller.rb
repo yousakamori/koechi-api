@@ -20,7 +20,7 @@ class Me::NotesController < ApplicationController
   private
 
   def set_spaces
-    @spaces = @current_user.spaces
+    @spaces = @current_user.spaces.active(@current_user)
   end
 
   def set_notes

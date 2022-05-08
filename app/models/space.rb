@@ -14,6 +14,11 @@ class Space < ApplicationRecord
   before_validation :format_emoji
   # ___________________________________________________________________________
   #
+  scope :active, ->(user) {
+    where(archived: false).or(where(archived: true).where(owner_id: user))
+  }
+  # ___________________________________________________________________________
+  #
   def member?(user)
     users.include?(user)
   end

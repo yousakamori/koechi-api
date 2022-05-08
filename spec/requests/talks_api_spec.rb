@@ -38,7 +38,7 @@ RSpec.describe 'Talks API', type: :request do
       put "/talks/#{talk.slug}", params: { title: 'edit talk title' }
 
       expect(response).to have_http_status :no_content
-      expect(Talk.first.title).to eq('edit talk title')
+      expect(Talk.last.title).to eq('edit talk title')
     end
   end
 

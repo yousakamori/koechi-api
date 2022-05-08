@@ -66,8 +66,7 @@ class SearchesController < ApplicationController
   end
 
   def my_notes
-    # TODO: archiveは表示したくない => めんどくさそう?
-    spaces = @current_user.spaces
+    spaces = @current_user.spaces.active(@current_user)
     Note.active.where(space_id: spaces.ids)
   end
 

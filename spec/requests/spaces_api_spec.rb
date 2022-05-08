@@ -30,7 +30,7 @@ RSpec.describe 'Spaces API', type: :request do
       put "/spaces/#{space.slug}", params: { name: 'new name', emoji: '🦁' }
 
       expect(response).to have_http_status :no_content
-      expect(Space.first.name).to eq('new name')
+      expect(Space.last.name).to eq('new name')
     end
   end
 
