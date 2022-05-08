@@ -1,5 +1,6 @@
 class Comment < ApplicationRecord
   include Rails.application.routes.url_helpers
+  include Userable
   # ___________________________________________________________________________
   #
   has_many :likes, -> { where liked: true }, as: :likable, dependent: :destroy

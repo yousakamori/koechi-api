@@ -36,16 +36,4 @@ RSpec.describe 'Mes API', type: :request do
       expect(response).to have_http_status :no_content
     end
   end
-
-  describe 'GET /liked' do
-    it 'likeしているか' do
-      log_in_as(user.email, 'passw0rd')
-      like = create(:like, user: user)
-      get "/me/liked?likable_id=#{like.likable_id}&likable_type=#{like.likable_type}"
-      json = JSON.parse(response.body)
-
-      expect(json['liked']).to be_truthy
-      expect(response).to have_http_status :ok
-    end
-  end
 end

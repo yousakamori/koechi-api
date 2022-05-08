@@ -1,5 +1,6 @@
 class Talk < ApplicationRecord
   include Rails.application.routes.url_helpers
+  include Userable
   # ___________________________________________________________________________
   #
   has_many :comments, as: :commentable, dependent: :destroy

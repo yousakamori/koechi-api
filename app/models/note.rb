@@ -1,4 +1,7 @@
 class Note < ApplicationRecord
+  include Userable
+  # ___________________________________________________________________________
+  #
   paginates_per 50 # TODO: default:25を変更 => ここで定義どうしよ?
 
   has_many :comments, as: :commentable, dependent: :destroy
@@ -25,11 +28,5 @@ class Note < ApplicationRecord
   #
   def body_length
     body_text&.length || 0
-  end
-
-  def mine?(current_user)
-    return false unless current_user
-
-    user_id == current_user.id
   end
 end

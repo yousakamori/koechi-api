@@ -65,14 +65,11 @@ Rails.application.routes.draw do
   resources :links, only: [:index]
   resources :notes, only: %i[edit show update destroy], param: :slug
   resources :comments, only: %i[create update destroy], param: :slug
+  resource :me, only: %i[show update destroy]
   resources :talks, only: %i[index create update show destroy], param: :slug do
     collection do
       get :archived
     end
-  end
-
-  resource :me, only: %i[show update destroy] do
-    collection { get :liked }
   end
 
   namespace :me do

@@ -3,6 +3,7 @@ json.note do
                 :last_comment_created_at, :liked_count, :comments_count, :updated_at, :created_at
 
   json.is_mine @note.mine?(@current_user)
+  json.current_user_liked @note.current_user_liked?(@current_user)
   json.body_letters_count @note.body_length
 
   json.user do
