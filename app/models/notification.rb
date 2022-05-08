@@ -8,6 +8,7 @@ class Notification < ApplicationRecord
   # ___________________________________________________________________________
   #
   validates :action, presence: true, inclusion: { in: %w[follow comment comment_reply like note invite] }
+  validates :notifiable_type, inclusion: { in: %w[Comment Note Membership Talk] }, allow_nil: true
   # ___________________________________________________________________________
   #
   scope :recent, -> { order(updated_at: :desc) }
@@ -70,8 +71,6 @@ class Notification < ApplicationRecord
     private
 
     def send_email!
-      # return unless [:follow, :comment, :comment_reply, :like, :invite].include?(@action)
-
       return unless %i[follow comment comment_reply like].include?(@action)
       return if %i[comment comment_reply].include?(@action) && !@recipient.email_notify_comments
       return if @action == :like && !@recipient.email_notify_likes

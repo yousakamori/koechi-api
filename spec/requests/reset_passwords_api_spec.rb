@@ -18,7 +18,7 @@ RSpec.describe 'ResetPasswords API', type: :request do
   end
 
   describe 'GET /reset_password/check_token' do
-    it 'tokenが有効であこと' do
+    it 'tokenが有効なこと' do
       token = user.signed_id(expires_in: 1.minute, purpose: :reset_password)
       get "/reset_password/check_token?token=#{token}"
       json = JSON.parse(response.body)
@@ -26,7 +26,7 @@ RSpec.describe 'ResetPasswords API', type: :request do
       expect(json['valid_token']).to be_truthy
     end
 
-    it 'tokenが違う場合は無効であこと' do
+    it 'tokenが違う場合は無効なこと' do
       _token = user.signed_id(expires_in: 1.minute, purpose: :reset_password)
       get '/reset_password/check_token?token=badtoken'
       json = JSON.parse(response.body)
@@ -34,7 +34,7 @@ RSpec.describe 'ResetPasswords API', type: :request do
       expect(json['valid_token']).to be_falsey
     end
 
-    it '有効期限切れの場合は無効であこと' do
+    it '有効期限切れの場合は無効なこと' do
       token = user.signed_id(expires_in: 1.minute, purpose: :reset_password)
       travel 2.minutes
       get "/reset_password/check_token?token=#{token}"

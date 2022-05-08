@@ -18,8 +18,6 @@ class Spaces::MembersController < ApplicationController
       Notification.to_recipient!(action: :invite, recipient: @user, sender: @current_user, notifiable: @member)
     end
 
-    @member&.send_member_email(@user, @space)
-
     render 'create', formats: :json
   end
 

@@ -93,11 +93,6 @@ class User < ApplicationRecord
     cdn_image_url(avatar.variant(:small).processed) if avatar.attached?
   end
 
-  def self.generate_signup_code(length = 20)
-    rlength = (length * 3) / 4
-    SecureRandom.urlsafe_base64(rlength).tr('lIO0', 'sxyz')
-  end
-
   def follow!(user_id)
     following_relationships.create!(following_id: user_id)
   end
@@ -123,6 +118,11 @@ class User < ApplicationRecord
 
     token_expiration_time = "#{token_expiration_period.in_minutes.to_i}分"
     UserMailer.public_send(action, self, magic_link, token_expiration_time).deliver_later
+  end
+
+  def self.generate_signup_code(length = 20)
+    rlength = (length * 3) / 4
+    SecureRandom.urlsafe_base64(rlength).tr('lIO0', 'sxyz')
   end
   # ___________________________________________________________________________
   #

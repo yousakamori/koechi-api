@@ -9,8 +9,8 @@ class LikesController < ApplicationController
 
       if @like.liked
         # notification
-        Notification.to_recipient!(action: :like, recipient: @like.likable.user, sender: @current_user,
-                                   notifiable: @like.likable)
+        Notification.to_recipient!(action: :like, recipient: @like.likable.user,
+                                   sender: @current_user, notifiable: @like.likable)
       end
     end
 
