@@ -60,10 +60,9 @@ class Notification < ApplicationRecord
       @sender = sender
       @notifiable = notifiable
 
-      notification = recipient.notifications.find_or_initialize_by(action: action, sender_id: sender.id,
-                                                                   notifiable: notifiable)
-      notification.checked = false
-      notification.save!
+      recipient.notifications.where(action: action, sender_id: sender.id, notifiable: notifiable).first_or_create! do |notification|
+        notification.checked = false
+      end
 
       send_email!
     end

@@ -5,9 +5,9 @@ class UsersController < ApplicationController
   #
   def create
     password = User.generate_signup_code
-    user = User.find_or_initialize_by(user_params.merge(username: nil))
-    user.password = password
-    user.save!
+    user = User.where(user_params.merge(username: nil)).first_or_create! do |u|
+      u.password = password
+    end
     user.send_email!(:confirmation_email, password)
 
     head :no_content
