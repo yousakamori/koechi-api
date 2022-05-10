@@ -60,15 +60,17 @@ class Notification < ApplicationRecord
       @sender = sender
       @notifiable = notifiable
 
-      recipient.notifications.where(action: action, sender_id: sender.id, notifiable: notifiable).first_or_create! do |notification|
-        notification.checked = false
+      notification = recipient.notifications.where(action: action, sender_id: sender.id, notifiable: notifiable).first_or_create! do |n|
+        n.checked = false
       end
 
-      send_email!
+      # TODO: batch処理にしたい(whenever?)
+      send_email! unless notification.checked
     end
 
     private
 
+    # TODO: batch処理にしたい(whenever?)
     def send_email!
       return unless %i[follow comment comment_reply like].include?(@action)
       return if %i[comment comment_reply].include?(@action) && !@recipient.email_notify_comments

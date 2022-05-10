@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Notification, type: :model do
+  ActiveJob::Base.queue_adapter = :test
+  let(:user) { create(:user) }
+  let(:talk) { create(:talk) }
+
   it 'actionが有効なこと' do
     notification = build(:notification, :for_comment, action: :like)
     expect(notification).to be_valid
@@ -41,5 +45,21 @@ RSpec.describe Notification, type: :model do
     notification.valid?
 
     expect(notification.errors[:notifiable_type]).to include('は一覧にありません')
+  end
+
+  it 'checkedがfalseのときはメールが送信されないこと' do
+    create(:notification, notifiable: talk, checked: false, recipient_id: talk.user_id, sender_id: user.id, action: :like)
+
+    expect do
+      described_class.to_recipient!(action: :like, recipient: talk.user, sender: user, notifiable: talk)
+    end.to have_enqueued_job(ActionMailer::MailDeliveryJob)
+  end
+
+  it 'checkedがtrueのときはメールが送信されないこと' do
+    create(:notification, notifiable: talk, checked: true, recipient_id: talk.user_id, sender_id: user.id, action: :like)
+
+    expect do
+      described_class.to_recipient!(action: :like, recipient: talk.user, sender: user, notifiable: talk)
+    end.not_to have_enqueued_job(ActionMailer::MailDeliveryJob)
   end
 end
