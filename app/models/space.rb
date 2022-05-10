@@ -5,7 +5,7 @@ class Space < ApplicationRecord
   belongs_to :owner, class_name: 'User'
   # ___________________________________________________________________________
   #
-  validates :emoji, presence: true, length: { maximum: 50, allow_blank: true }
+  validates :emoji, presence: true, length: { maximum: 20, allow_blank: true }
   validates :name, presence: true, length: { maximum: 70, allow_blank: true }
   # ___________________________________________________________________________
   #
