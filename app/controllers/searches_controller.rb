@@ -4,28 +4,25 @@ class SearchesController < ApplicationController
   before_action :check_source, only: [:show]
   before_action :split_keywords
 
-  PER_PAGE_SEARCHES = 48
   def show
     case params[:source]
     when 'users'
       q = User.ransack({ m: 'and', g: gouping_hash(@keywords, %w[name username]), s: 'follower_count desc' })
-      @users = q.result.includes(avatar_attachment: :blob).page(params[:page]).per(params[:count] || PER_PAGE_SEARCHES)
+      @users = q.result.includes(avatar_attachment: :blob).page(params[:page]).per(params[:count] || Rails.configuration.x.app.per_page_search)
 
       render 'users', formats: :json
     when  'talks'
-      # TODO: sort順を考える
-      q = Talk.ransack({ m: 'and', g: gouping_hash(@keywords, %w[title]), s: 'created_at desc' })
-      @talks = q.result.includes([user: { avatar_attachment: :blob }]).active.page(params[:page]).per(params[:count] || PER_PAGE_SEARCHES)
+      q = Talk.ransack({ m: 'and', g: gouping_hash(@keywords, %w[title]), s: ['liked_count desc', 'comments_count desc'] })
+      @talks = q.result.includes([user: { avatar_attachment: :blob }]).active.page(params[:page]).per(params[:count] || Rails.configuration.x.app.per_page_search)
 
       render 'talks', formats: :json
     else
       # notes
       raise(ExceptionHandler::AuthenticationError) unless @current_user
 
-      # TODO: sort順を考える
-      q = my_notes.ransack({ m: 'and', g: gouping_hash(@keywords, %w[title body_text]), s: 'created_at desc' })
+      q = my_notes.ransack({ m: 'and', g: gouping_hash(@keywords, %w[title body_text]), s: ['posted_at desc', 'liked_count desc'] })
       @notes = q.result.includes(:space, user: { avatar_attachment: :blob })
-                .page(params[:page]).per(params[:count] || PER_PAGE_SEARCHES)
+                .page(params[:page]).per(params[:count] || Rails.configuration.x.app.per_page_search)
 
       render 'notes', formats: :json
     end

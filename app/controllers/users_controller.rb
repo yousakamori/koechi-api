@@ -17,23 +17,20 @@ class UsersController < ApplicationController
     render 'show', formats: :json
   end
 
-  PER_PAGE_FOLLOWERS = 40
   def followers
-    @follows = @user.follower_relationships.order(created_at: :desc).page(params[:page]).per(params[:count] || PER_PAGE_FOLLOWERS).includes([follower: { avatar_attachment: :blob }])
+    @follows = @user.follower_relationships.order(created_at: :desc).page(params[:page]).per(params[:count] || Rails.configuration.x.app.per_page_follower).includes([follower: { avatar_attachment: :blob }])
 
     render 'follows', formats: :json
   end
 
-  PER_PAGE_FOLLOWINGS = 40
   def followings
-    @follows = @user.following_relationships.order(created_at: :desc).page(params[:page]).per(params[:count] || PER_PAGE_FOLLOWINGS).includes([following: { avatar_attachment: :blob }])
+    @follows = @user.following_relationships.order(created_at: :desc).page(params[:page]).per(params[:count] || Rails.configuration.x.app.per_page_following).includes([following: { avatar_attachment: :blob }])
 
     render 'follows', formats: :json
   end
 
-  PER_PAGE_COMMENTS = 100
   def comments
-    @comments = @user.comments.includes([:commentable]).where(comments: { commentable_type: 'Talk' }).order(created_at: :desc).page(params[:page]).per(params[:count] || PER_PAGE_COMMENTS)
+    @comments = @user.comments.includes([:commentable]).where(comments: { commentable_type: 'Talk' }).order(created_at: :desc).page(params[:page]).per(params[:count] || Rails.configuration.x.app.per_page_comment)
 
     render 'comments', formats: :json
   end

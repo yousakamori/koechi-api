@@ -2,9 +2,17 @@ default: &default
   name: koechi
   cdn_url: https://cdn.koechi.com
   client_url: http://localhost:3000
+  per_page_search: 48
+  per_page_talk: 48
+  per_page_follower: 36
+  per_page_following: 36
+  per_page_comment: 24
+  per_page_like: 36
+  per_page_note: 48
     
 development:
   <<: *default
+  
 
 test:
   <<: *default

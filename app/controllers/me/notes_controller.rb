@@ -2,9 +2,8 @@ class Me::NotesController < ApplicationController
   before_action :set_spaces
   before_action :set_notes
 
-  PER_PAGE_NOTES = 50
   def show
-    @notes = @notes.order(posted_at: :desc).page(params[:page]).per(params[:count] || PER_PAGE_NOTES)
+    @notes = @notes.order(posted_at: :desc).page(params[:page]).per(params[:count] || Rails.configuration.x.app.per_page_note)
 
     render 'show', formats: :json
   end

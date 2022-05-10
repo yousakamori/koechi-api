@@ -13,21 +13,20 @@ def random_user
   User.find(rand(5) + 1)
 end
 
-1.upto(30) do |i|
+1.upto(50) do |i|
   talk_user = random_user
   talk = talk_user.talks.create!(title: "タイトル#{i}")
 
-  3.times do 
+  10.times do
     # comment
     comment_user = random_user
     parent_comment = talk.comments.create!(
       body_text: body_text,
       body_json: body_json,
-      user: comment_user,
+      user: comment_user
     )
-    
-    3.times do 
-      # reply
+    10.times do
+      # comment reply
       child_comment_user = random_user
       talk.comments.create!(
         body_text: body_text,

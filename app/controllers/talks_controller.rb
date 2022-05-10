@@ -2,9 +2,8 @@ class TalksController < ApplicationController
   skip_before_action :authenticate_user, only: %i[index show]
   before_action :set_talk, only: %i[update destroy]
 
-  PER_PAGE_TALKS = 30
   def index
-    @talks = Talk.includes(user: { avatar_attachment: :blob }).where(archived: false).page(params[:page] || 1).per(params[:count] || PER_PAGE_TALKS)
+    @talks = Talk.includes(user: { avatar_attachment: :blob }).where(archived: false).page(params[:page] || 1).per(params[:count] || Rails.configuration.x.app.per_page_talk)
 
     # min comments count
     @talks = @talks.where(comments_count: params[:min_comments_count].to_i..) if params[:min_comments_count]
@@ -54,9 +53,8 @@ class TalksController < ApplicationController
     head :no_content
   end
 
-  PER_PAGE_TALKS_ARCHIVED = 50
   def archived
-    @talks = @current_user.talks.where(archived: true).page(params[:page] || 1).per(params[:count] || PER_PAGE_TALKS_ARCHIVED)
+    @talks = @current_user.talks.where(archived: true).page(params[:page] || 1).per(params[:count] || Rails.configuration.x.app.per_page_talk)
 
     render 'index', formats: :json
   end
