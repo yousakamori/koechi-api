@@ -45,3 +45,7 @@
 /config/credentials/production.key
 
 .DS_Store
+.irb_history
+.lesshst
+erd.pdf
+

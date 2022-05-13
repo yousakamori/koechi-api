@@ -83,6 +83,9 @@ group :development do
   # ssh deploy
   gem 'bcrypt_pbkdf'
   gem 'ed25519'
+
+  # er図
+  gem 'rails-erd'
 end
 
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]

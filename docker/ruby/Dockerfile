@@ -1,6 +1,6 @@
 FROM ruby:3.0.4-alpine3.14
 
-ENV RUNTIME_PACKAGES="linux-headers libxml2-dev make gcc openssh libc-dev nodejs tzdata postgresql-dev postgresql git imagemagick shared-mime-info less" \
+ENV RUNTIME_PACKAGES="linux-headers libxml2-dev make gcc openssh libc-dev nodejs tzdata postgresql-dev postgresql git imagemagick graphviz msttcorefonts-installer fontconfig font-bitstream-type1 ghostscript-fonts ttf-freefont shared-mime-info less" \
     DEV_PACKAGES="build-base curl-dev" \
     HOME="/app" \
     LANG=C.UTF-8 \
