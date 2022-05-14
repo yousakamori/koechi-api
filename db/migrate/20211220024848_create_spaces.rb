@@ -7,7 +7,7 @@ class CreateSpaces < ActiveRecord::Migration[6.1]
       t.string :slug, null: false
       t.boolean :archived, null: false, default: false
       t.boolean :favorite, null: false, default: false
-      t.datetime :archived_at, precision: 6,default: nil
+      t.datetime :archived_at, precision: 6, default: nil
       t.integer :notes_count, null: false, default: 0
 
       t.timestamps
@@ -16,7 +16,3 @@ class CreateSpaces < ActiveRecord::Migration[6.1]
     add_index :spaces, :slug, unique: true
   end
 end
-
-
-
-

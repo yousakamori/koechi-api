@@ -11,11 +11,9 @@ class CreateNotes < ActiveRecord::Migration[6.0]
       t.datetime :last_comment_created_at, precision: 6, default: nil
       t.integer :comments_count, null: false, default: 0
       t.integer :liked_count, null: false, default: 0
-      
+
       t.timestamps
     end
     add_index :notes, :slug, unique: true
   end
 end
-
-

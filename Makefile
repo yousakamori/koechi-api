@@ -22,6 +22,8 @@ rserve:
 	docker-compose down && docker-compose up -d && docker-compose exec app ash -l
 rapp:
 	docker-compose restart app && docker-compose exec app ash -l
+rdb:
+	docker-compose restart db && docker-compose exec db ash -l
 rsp:
 	docker-compose exec app bin/rspec
 bi:
@@ -35,3 +37,6 @@ sql:
 # 終了 => ctr + P ctr + Q
 atapp:
 	docker attach app
+# dump:
+# 	docker exec db pg_dump -a --column-inserts -t talks koechi_development -U postgres > sql_backup/talks.sql
+# 	docker exec db pg_dump -a --column-inserts -t comments koechi_development -U postgres > sql_backup/comments.sql

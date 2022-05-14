@@ -5,7 +5,8 @@ class Spaces::NotesController < ApplicationController
 
   def index
     @notes = @space.notes.includes([:space, { user: { avatar_attachment: :blob } }])
-                   .active.order(posted_at: :desc).page(params[:page]).per(10)
+                   .active.order(posted_at: :desc).page(params[:page])
+                   .per(Rails.configuration.x.app.per_page_space_note)
 
     render 'index', formats: :json
   end

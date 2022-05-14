@@ -8,6 +8,6 @@ class CreateMemberships < ActiveRecord::Migration[6.1]
       t.timestamps
     end
 
-    add_index :memberships, [:space_id, :user_id], unique: true
+    add_index :memberships, %i[space_id user_id], unique: true
   end
 end

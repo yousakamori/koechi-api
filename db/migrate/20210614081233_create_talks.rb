@@ -6,8 +6,8 @@ class CreateTalks < ActiveRecord::Migration[6.1]
       t.string :slug, null: false
       t.boolean :archived, null: false, default: false
       t.boolean :closed, null: false, default: false
-      t.datetime :closed_at, precision: 6,default: nil
-      t.datetime :last_comment_created_at, precision: 6,default: nil
+      t.datetime :closed_at, precision: 6, default: nil
+      t.datetime :last_comment_created_at, precision: 6, default: nil
       t.integer :comments_count, null: false, default: 0
       t.integer :liked_count, null: false, default: 0
 

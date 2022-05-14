@@ -9,6 +9,7 @@ default: &default
   per_page_comment: 24
   per_page_like: 36
   per_page_note: 48
+  per_page_space_note: 36
     
 development:
   <<: *default
