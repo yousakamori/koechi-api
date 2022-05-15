@@ -1,24 +1,9 @@
-# README
+## ポートフォリオ（back）
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## 概要ページ
 
-Things you may want to cover:
+[https://younakamura.vercel.app/posts/koechi](https://younakamura.vercel.app/posts/koechi)
 
-* Ruby version
+## ポートフォリオ（front）
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+[https://github.com/yousakamori/koechi-front](https://github.com/yousakamori/koechi-front)
