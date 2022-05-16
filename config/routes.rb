@@ -1,7 +1,4 @@
 Rails.application.routes.draw do
-  # TODO: 使ってない
-  # get '/blobs/redirect/:signed_id/*filename' => 'active_storage/blobs#show'
-
   # auth
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'

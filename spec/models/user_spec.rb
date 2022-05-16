@@ -99,14 +99,6 @@ RSpec.describe User, type: :model do
     expect(user).to be_invalid
   end
 
-  # TODO: production development testでわける？
-  # describe '#avatar_url' do
-  #   it do
-  #     user = create(:user, :with_avatar)
-  #     expect(user.cdn_image_url(user.avatar)).to eq("https://cdn.koechi.com/#{user.avatar.key}")
-  #   end
-  # end
-
   describe '#follow and #unfollow' do
     let(:other_user) { create(:user) }
 
