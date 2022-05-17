@@ -27,7 +27,6 @@ RSpec.describe 'ResetPasswords API', type: :request do
     end
 
     it 'tokenが違う場合は無効なこと' do
-      _token = user.signed_id(expires_in: 1.minute, purpose: :reset_password)
       get '/reset_password/check_token?token=badtoken'
       json = JSON.parse(response.body)
 

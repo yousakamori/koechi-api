@@ -1,5 +1,7 @@
 class FollowRelationshipsController < ApplicationController
   before_action :same_user_error, only: [:create]
+  skip_before_action :authorize_guest, only: :destroy
+
   def create
     ActiveRecord::Base.transaction do
       current_user.follow!(params[:user_id])

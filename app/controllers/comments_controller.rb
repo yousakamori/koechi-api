@@ -1,10 +1,9 @@
 class CommentsController < ApplicationController
-  before_action :set_comment, only: %i[update destroy]
+  before_action :set_comment
+  before_action :authorize_archive
+  before_action :authorize_user
 
   def create
-    @comment = @current_user.comments.new(create_comment_params)
-    authorize_archive
-
     ActiveRecord::Base.transaction do
       @comment.save!
 
@@ -38,13 +37,28 @@ class CommentsController < ApplicationController
   private
 
   def set_comment
-    @comment = @current_user.comments.find_by!(slug: params[:slug])
+    @comment = if action_name == 'create'
+                 @current_user.comments.new(create_comment_params)
+               else
+                 @current_user.comments.find_by!(slug: params[:slug])
+               end
   end
 
   def authorize_archive
-    return unless @comment.commentable_type == 'Talk'
+    archived = case @comment.commentable_type
+               when 'Talk'
+                 @comment.commentable.archived?
+               when 'Note'
+                 @comment.commentable.space.archived?
+               else
+                 true
+               end
 
-    raise ExceptionHandler::ArchivedError if @comment.commentable&.archived?
+    raise ExceptionHandler::ArchivedError if archived
+  end
+
+  def authorize_user
+    authorize @comment
   end
 
   def create_comment_params

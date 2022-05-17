@@ -31,7 +31,7 @@ class User < ApplicationRecord
   scope :autocomplete, ->(name) {
                          where('username ILIKE ?', "#{name}%").or(where('name ILIKE ?', "#{name}%")).activated.order(:name).limit(50)
                        }
-  enum role: { member: 0, admin: 10 }
+  enum role: { member: 0, guest: 10, admin: 20 }
   # ___________________________________________________________________________
   #
   before_validation :downcase_email
@@ -67,7 +67,7 @@ class User < ApplicationRecord
             length: { maximum: 160, allow_blank: true },
             if: -> { changes[:bio] }
 
-  validates :role, presence: true
+  validates :role, presence: true, inclusion: { in: User.roles.keys }
 
   validates :avatar, attached: true, allow_blank: true,
                      content_type: ['image/png', 'image/jpeg', 'image/gif'], size: { less_than: 5.megabytes }

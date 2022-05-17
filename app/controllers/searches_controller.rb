@@ -18,7 +18,7 @@ class SearchesController < ApplicationController
       render 'talks', formats: :json
     else
       # notes
-      raise(ExceptionHandler::AuthenticationError) unless @current_user
+      raise(Pundit::NotAuthorizedError) unless @current_user
 
       q = my_notes.ransack({ m: 'and', g: gouping_hash(@keywords, %w[title body_text]), s: ['posted_at desc', 'liked_count desc'] })
       @notes = q.result.includes(:space, user: { avatar_attachment: :blob })

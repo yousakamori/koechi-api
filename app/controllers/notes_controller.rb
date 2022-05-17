@@ -1,6 +1,7 @@
 class NotesController < ApplicationController
   before_action :set_note
   before_action :authorize_user
+  skip_before_action :authorize_guest, only: :update
 
   def show
     @space = @note.space
