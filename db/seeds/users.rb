@@ -9,7 +9,7 @@ users = [
   { name: 'アレクサンダーリーチャン', username: 'alex', password: 'koechi@password' },
   { name: 'マリー・アントワネット', username: 'mary', password: 'koechi@password' },
   { name: 'トム・ペニー', username: 'tom', password: 'koechi@password' },
-  { name: 'てすとゆーざー', username: 'testuser', password: 'password' }
+  { name: 'げすとゆーざー', username: 'guestuser', password: 'password', role: 10 }
 ]
 
 users.each_with_index do |u, i|

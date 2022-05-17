@@ -13,7 +13,7 @@ spaces = [
   { emoji: '🏥', name: '通院' }
 ]
 
-usernames = %w[taro jiro testuser]
+usernames = %w[taro jiro guestuser]
 now = Time.current
 
 usernames.each do |n|

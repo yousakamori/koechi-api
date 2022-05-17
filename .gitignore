@@ -44,6 +44,7 @@
 .env.*
 /config/credentials/production.key
 
+db/sql_backup
 .DS_Store
 .irb_history
 .lesshst
