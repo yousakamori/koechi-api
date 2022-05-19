@@ -10,6 +10,7 @@ module ExceptionHandler
     rescue_from Pundit::NotAuthorizedError, with: :forbidden
     rescue_from ActiveRecord::RecordNotFound, with: :not_found
     rescue_from ActiveRecord::RecordInvalid, with: :unprocessable_entity
+    rescue_from ActiveSupport::MessageVerifier::InvalidSignature, with: :invalid_signature
   end
 
   private
@@ -35,6 +36,10 @@ module ExceptionHandler
 
   def guest
     json_response({ message: 'ゲストは更新・削除ができません。' }, :forbidden)
+  end
+
+  def invalid_signature
+    json_response({ message: 'tokenが不正です。' }, :bad_request)
   end
 
   def validate_error_reponse(errors)

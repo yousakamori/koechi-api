@@ -19,11 +19,15 @@ RSpec.describe 'ResetPasswords API', type: :request do
 
   describe 'GET /reset_password/check_token' do
     it 'tokenが有効なこと' do
-      token = user.signed_id(expires_in: 1.minute, purpose: :reset_password)
+      post '/reset_password', params: { email: user.email }
+      url = enqueued_jobs[0][:args][3]['args'][1]
+      uri = URI.parse(url)
+      token = CGI.parse(uri.query)['token'].first
       get "/reset_password/check_token?token=#{token}"
       json = JSON.parse(response.body)
 
       expect(json['valid_token']).to be_truthy
+      expect(response).to have_http_status :ok
     end
 
     it 'tokenが違う場合は無効なこと' do
@@ -31,24 +35,41 @@ RSpec.describe 'ResetPasswords API', type: :request do
       json = JSON.parse(response.body)
 
       expect(json['valid_token']).to be_falsey
+      expect(response).to have_http_status :ok
     end
 
     it '有効期限切れの場合は無効なこと' do
-      token = user.signed_id(expires_in: 1.minute, purpose: :reset_password)
-      travel 2.minutes
+      post '/reset_password', params: { email: user.email }
+      url = enqueued_jobs[0][:args][3]['args'][1]
+      uri = URI.parse(url)
+      token = CGI.parse(uri.query)['token'].first
+      travel 61.minutes
+
       get "/reset_password/check_token?token=#{token}"
       json = JSON.parse(response.body)
 
       expect(json['valid_token']).to be_falsey
+      expect(response).to have_http_status :ok
     end
   end
 
   describe 'PUT /reset_password/' do
     it 'パスワードの更新' do
-      token = user.signed_id(expires_in: 1.minute, purpose: :reset_password)
+      post '/reset_password', params: { email: user.email }
+      url = enqueued_jobs[0][:args][3]['args'][1]
+      uri = URI.parse(url)
+      token = CGI.parse(uri.query)['token'].first
       put '/reset_password', params: { token: token, password: 'newPassword' }
 
       expect(response).to have_http_status :no_content
+    end
+
+    it 'トークンが不正な場合エラー' do
+      post '/reset_password', params: { email: user.email }
+      token = 'badtoken'
+      put '/reset_password', params: { token: token, password: 'newPassword' }
+
+      expect(response).to have_http_status :bad_request
     end
   end
 end
