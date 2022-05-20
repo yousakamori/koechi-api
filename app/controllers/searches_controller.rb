@@ -15,7 +15,7 @@ class SearchesController < ApplicationController
       q = Talk.ransack({ m: 'and', g: gouping_hash(@keywords, %w[title]), s: ['liked_count desc', 'comments_count desc'] })
       @talks = q.result.includes([user: { avatar_attachment: :blob }]).active.page(params[:page]).per(params[:count] || Rails.configuration.x.app.per_page_search)
 
-      render 'talks', formats: :json
+      render 'talks/index', formats: :json
     else
       # notes
       raise(Pundit::NotAuthorizedError) unless @current_user

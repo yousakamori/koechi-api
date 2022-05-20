@@ -7,4 +7,5 @@ json.talks do
     end
   end
 end
+
 json.next_page @talks.next_page
