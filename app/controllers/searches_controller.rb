@@ -24,7 +24,7 @@ class SearchesController < ApplicationController
       @notes = q.result.includes(:space, user: { avatar_attachment: :blob })
                 .page(params[:page]).per(params[:count] || Rails.configuration.x.app.per_page_search)
 
-      render 'notes', formats: :json
+      render 'notes/index', formats: :json
     end
   end
 

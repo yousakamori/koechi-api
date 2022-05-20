@@ -8,7 +8,7 @@ class Spaces::NotesController < ApplicationController
                    .active.order(posted_at: :desc).page(params[:page])
                    .per(Rails.configuration.x.app.per_page_space_note)
 
-    render 'index', formats: :json
+    render 'notes/index', formats: :json
   end
 
   def create

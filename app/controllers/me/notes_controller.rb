@@ -5,7 +5,7 @@ class Me::NotesController < ApplicationController
   def show
     @notes = @notes.order(posted_at: :desc).page(params[:page]).per(params[:count] || Rails.configuration.x.app.per_page_note)
 
-    render 'show', formats: :json
+    render 'notes/index', formats: :json
   end
 
   def term
@@ -13,7 +13,7 @@ class Me::NotesController < ApplicationController
     end_date = Time.zone.at(params[:end].to_i).end_of_day
     @notes = @notes.where(posted_at: (start_date..end_date)).order(:posted_at)
 
-    render 'term', formats: :json
+    render 'notes/index', formats: :json
   end
 
   private
