@@ -17,25 +17,25 @@ append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets'
 
 # デプロイ用の追加タスク
 namespace :deploy do
-  desc 'Make sure local git is in sync with remote.'
-  task :check_revision do
-    on roles(:app) do
-      unless `git rev-parse HEAD` == `git rev-parse origin/main`
-        # exit
-      end
-    end
-  end
+  # desc 'Make sure local git is in sync with remote.'
+  # task :check_revision do
+  #   on roles(:app) do
+  #     unless `git rev-parse HEAD` == `git rev-parse origin/main`
+  #       # exit
+  #     end
+  #   end
+  # end
 
-  desc 'reload the database with seed data'
-  task :seed do
-    on roles(:db) do
-      with rails_env: fetch(:rails_env) do
-        within release_path do
-          execute :bundle, :exec, :rails, 'db:seed'
-        end
-      end
-    end
-  end
+  # desc 'reload the database with seed data'
+  # task :seed do
+  #   on roles(:db) do
+  #     with rails_env: fetch(:rails_env) do
+  #       within release_path do
+  #         execute :bundle, :exec, :rails, 'db:seed'
+  #       end
+  #     end
+  #   end
+  # end
 
   # before :starting,     :check_revision
   # after  :migrate,      :seed

@@ -98,7 +98,7 @@ jobs:
       # ec2 ssh key
       - add_ssh_keys:
           fingerprints:
-            - 13:c8:b6:90:8e:b8:9c:a7:5c:1d:9f:e2:b3:ea:b5:ff
+            - d9:a5:1b:43:0a:98:4d:c8:8d:39:d8:ee:90:82:9f:61
 
       # deploy to ec2
       - deploy:
