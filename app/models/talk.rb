@@ -26,7 +26,7 @@ class Talk < ApplicationRecord
     AND likes.created_at >= '#{Time.current.weeks_ago(1)}'
   SQL
 
-  scope :weekly, -> { joins(weekly_conditions).group('talks.id').order('count(likes.id) DESC, comments_count DESC') }
+  scope :weekly, -> { joins(weekly_conditions).group('talks.id').order('count(likes.id) DESC, liked_count DESC, comments_count DESC') }
   scope :latest, -> { order('last_comment_created_at DESC NULLS LAST, closed_at DESC NULLS LAST, created_at DESC') }
   scope :alltime, -> { order(liked_count: :desc, comments_count: :desc) }
   scope :username, ->(username) { joins(:user).where(users: { username: username }) }

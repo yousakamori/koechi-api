@@ -18,15 +18,15 @@ class UsersController < ApplicationController
   end
 
   def followers
-    @follows = @user.follower_relationships.order(created_at: :desc).page(params[:page]).per(params[:count] || Rails.configuration.x.app.per_page_follower).includes([follower: { avatar_attachment: :blob }])
+    @followers = @user.follower_relationships.order(created_at: :desc).page(params[:page]).per(params[:count] || Rails.configuration.x.app.per_page_follower).includes([follower: { avatar_attachment: :blob }])
 
-    render 'follows', formats: :json
+    render 'followers', formats: :json
   end
 
   def followings
-    @follows = @user.following_relationships.order(created_at: :desc).page(params[:page]).per(params[:count] || Rails.configuration.x.app.per_page_following).includes([following: { avatar_attachment: :blob }])
+    @followings = @user.following_relationships.order(created_at: :desc).page(params[:page]).per(params[:count] || Rails.configuration.x.app.per_page_following).includes([following: { avatar_attachment: :blob }])
 
-    render 'follows', formats: :json
+    render 'followings', formats: :json
   end
 
   def comments
